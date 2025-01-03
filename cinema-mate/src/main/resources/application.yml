@@ -11,6 +11,8 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         ddl-auto: update
         show_sql: true
+  jwt:
+    secret-key: "b2713c6b6bb198cbec4ca41518ddbb806f284b03e61dcd1eac8e62a4faf0aeba"
 
 
 
