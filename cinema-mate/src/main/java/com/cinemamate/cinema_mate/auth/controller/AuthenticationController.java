@@ -1,5 +1,6 @@
 package com.cinemamate.cinema_mate.auth.controller;
 
+import com.cinemamate.cinema_mate.auth.dto.AuthRequest;
 import com.cinemamate.cinema_mate.auth.dto.AuthResponse;
 import com.cinemamate.cinema_mate.auth.services.authenticationServiceImpl.AuthenticationService;
 import com.cinemamate.cinema_mate.user.dto.CreateUserDto;
@@ -21,6 +22,10 @@ public class AuthenticationController {
     @PostMapping("/user")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody CreateUserDto createUserDto){
         return new ResponseEntity<>(authenticationService.userRegister(createUserDto), HttpStatus.CREATED);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request){
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
 }

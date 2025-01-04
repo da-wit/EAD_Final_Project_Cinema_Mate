@@ -7,5 +7,6 @@ import com.cinemamate.cinema_mate.user.entity.User;
 public interface IUserService {
     UserDto getUserByUserName(String username);
     boolean userExists(String username);
+    User getUser(String username);
     UserDto saveUser(User user);
 }

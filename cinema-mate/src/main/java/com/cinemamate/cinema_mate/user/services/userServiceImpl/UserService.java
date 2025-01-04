@@ -36,6 +36,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getUser(String username) {
+        return userRepository.findUserByUsername(username).orElse(null);
+    }
+
+    @Override
     public UserDto saveUser(User user) {
         return UserMapper.UsertoUserDto(userRepository.save(user));
     }
