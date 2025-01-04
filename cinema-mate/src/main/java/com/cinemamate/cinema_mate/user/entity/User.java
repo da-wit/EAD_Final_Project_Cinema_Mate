@@ -25,7 +25,7 @@ public class User extends AuditableEntity implements UserDetails {
     private UUID id;
 
     @Setter
-    @Column(name = "username",nullable = false,unique = true)
+    @Column(name = "username",nullable = false)
     private String username;
 
     @Setter
@@ -35,7 +35,7 @@ public class User extends AuditableEntity implements UserDetails {
 //    @Setter
     @Column(name = "password",nullable = false)
     private String password;
-
+    @Getter
     @Setter
     @Column(name = "isActive",nullable = false)
     private boolean isActive=true;
