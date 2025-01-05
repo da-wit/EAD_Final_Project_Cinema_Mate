@@ -1,30 +1,28 @@
-package com.cinemamate.cinema_mate.user.dto;
+package com.cinemamate.cinema_mate.cinema.dto;
 
-import com.cinemamate.cinema_mate.core.constant.Role;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
+@Data
 @Builder
-public class CreateUserDto {
+public class CreateCinemaDto {
     @NotEmpty
-    @Size(min = 3,message = "UserName can not be less than 3d characters")
-    private String username;
-    @NotEmpty
+    @Size(min = 3,message = "CinemaName can not be less than 3 characters.")
+    private String cinemaname;
     @Email
     private String email;
+    @NotEmpty
     @Size(min = 6,message = "Password can not be less than 6 characters")
     private String password;
     @NotEmpty
-    @Size(min = 6,message = "ConfirmPassword can not be less than 6 characters")
+    @Size(min = 6,message = "Password can not be less than 6 characters")
     private String confirmPassword;
+    @NotEmpty
+    private String description;
     @AssertTrue(message = "Passwords do not match")
     public boolean isPasswordsMatching() {
         if (password == null || confirmPassword == null) {

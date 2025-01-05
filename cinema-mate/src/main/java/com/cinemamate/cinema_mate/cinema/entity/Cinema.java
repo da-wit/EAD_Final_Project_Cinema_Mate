@@ -1,4 +1,4 @@
-package com.cinemamate.cinema_mate.user.entity;
+package com.cinemamate.cinema_mate.cinema.entity;
 
 import com.cinemamate.cinema_mate.core.base.AuditableEntity;
 import com.cinemamate.cinema_mate.core.constant.Role;
@@ -11,38 +11,43 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(
-        name = "user"
+        name = "cinema"
 )
-public class User extends AuditableEntity implements UserDetails {
+public class Cinema extends AuditableEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "VARCHAR(36)", nullable = false, unique = true)
     private String id;
 
     @Setter
-    @Column(name = "username",nullable = false)
-    private String username;
+    @Column(name = "cinemaname", nullable = false)
+    private String cinemaname;
 
     @Setter
-    @Column(name = "email",nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-//    @Setter
-    @Column(name = "password",nullable = false)
-    private String password;
-    @Getter
     @Setter
-    @Column(name = "isActive",nullable = false)
-    private boolean isActive=true;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Setter
-    @Column(name = "role",nullable = false)
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Setter
+    @Column(name = "isActive", nullable = false)
+    private boolean isActive = true;
+
+    @Setter
+    @Column(name = "role", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
@@ -59,7 +64,7 @@ public class User extends AuditableEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return cinemaname;
     }
 
     @Override

@@ -1,12 +1,8 @@
 package com.cinemamate.cinema_mate.user.mapper;
 
-import com.cinemamate.cinema_mate.user.dto.CreateUserDto;
 import com.cinemamate.cinema_mate.user.dto.UserDto;
 import com.cinemamate.cinema_mate.user.entity.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-@RequiredArgsConstructor
 public class UserMapper {
 
     public static UserDto UsertoUserDto(User user){

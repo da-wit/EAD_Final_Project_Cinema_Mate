@@ -1,4 +1,4 @@
-package com.cinemamate.cinema_mate.user.dto;
+package com.cinemamate.cinema_mate.cinema.dto;
 
 import com.cinemamate.cinema_mate.core.constant.Role;
 import lombok.Builder;
@@ -8,10 +8,11 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class UserDto {
+public class CinemaDto {
     private String id;
-    private String username;
+    private String cinemaname;
     private String email;
+    private String description;
     private boolean isActive;
     private Role role;
 }

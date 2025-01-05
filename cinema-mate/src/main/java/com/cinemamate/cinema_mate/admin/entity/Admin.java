@@ -1,6 +1,5 @@
-package com.cinemamate.cinema_mate.user.entity;
+package com.cinemamate.cinema_mate.admin.entity;
 
-import com.cinemamate.cinema_mate.core.base.AuditableEntity;
 import com.cinemamate.cinema_mate.core.constant.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,42 +9,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
+
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
-@Table(
-        name = "user"
-)
-public class User extends AuditableEntity implements UserDetails {
+@Table(name = "admin")
+public class Admin implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "VARCHAR(36)", nullable = false, unique = true)
     private String id;
 
-    @Setter
     @Column(name = "username",nullable = false)
+    @Setter
     private String username;
 
-    @Setter
-    @Column(name = "email",nullable = false)
-    private String email;
-
-//    @Setter
     @Column(name = "password",nullable = false)
+    @Setter
     private String password;
-    @Getter
-    @Setter
-    @Column(name = "isActive",nullable = false)
-    private boolean isActive=true;
 
-    @Setter
     @Column(name = "role",nullable = false)
-    @Enumerated(value = EnumType.STRING)
+    @Setter
+    @Enumerated(EnumType.STRING)
     private Role role;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -81,4 +68,5 @@ public class User extends AuditableEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

@@ -13,24 +13,6 @@ public class UserExceptions extends RuntimeException {
     private final HttpStatus httpStatus;
     private final ZonedDateTime timestamp;
 
-//    public static CommentException notFound(String resourceName, String resourceId) {
-//        return CommentException.builder()
-//                .message(String.format("%s with ID %s not found.", resourceName, resourceId))
-//                .errorCode("404")
-//                .httpStatus(HttpStatus.NOT_FOUND)
-//                .timestamp(ZonedDateTime.now())
-//                .build();
-//    }
-//
-//    public  static CommentException badRequest(String message){
-//        return CommentException.builder()
-//                .message(message)
-//                .errorCode("400")
-//                .httpStatus(HttpStatus.BAD_REQUEST)
-//                .timestamp(ZonedDateTime.now())
-//                .build();
-//    }
-
     public UserExceptions(String message, Throwable throwable, String errorCode, HttpStatus httpStatus) {
         super(message); // Pass message to RuntimeException
         this.message = message;

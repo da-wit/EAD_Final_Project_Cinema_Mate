@@ -1,7 +1,13 @@
 package com.cinemamate.cinema_mate.core.security;
 
+import com.cinemamate.cinema_mate.admin.entity.Admin;
+import com.cinemamate.cinema_mate.admin.services.adminServiceImpl.AdminService;
+import com.cinemamate.cinema_mate.cinema.entity.Cinema;
+import com.cinemamate.cinema_mate.cinema.exceptions.CinemaExceptions;
+import com.cinemamate.cinema_mate.cinema.services.cinemaServiceImpl.CinemaService;
 import com.cinemamate.cinema_mate.core.constant.Role;
 import com.cinemamate.cinema_mate.user.entity.User;
+import com.cinemamate.cinema_mate.user.exceptions.UserExceptions;
 import com.cinemamate.cinema_mate.user.services.userServiceImpl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +20,8 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
+    private final CinemaService cinemaService;
+    private final AdminService adminService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,21 +40,39 @@ public class CustomUserDetailsService implements UserDetailsService {
             if(user != null){
                 return user;
             }
+
+            Cinema cinema =cinemaService.getCinema(username);
+            if(cinema != null){
+                return  cinema;
+            }
+            Admin admin = adminService.getAdmin(username);
+            if(admin !=null){
+                return admin;
+            }
+
         }else if (role == Role.USER){
             User user = userService.getUser(username);
             System.out.println(username);
             System.out.println(role);
-            if(user != null){
-                return user;
+            if(user == null){
+                UserExceptions.usernameNotFound(username);
             }
+            return user;
         }else if (role == Role.CINEMA){
             // ToDo use the Cinema repository here
-            return null;
+            Cinema cinema = cinemaService.getCinema(username);
+            if(cinema == null) {
+                CinemaExceptions.cinemaNameNotFound(username);
+            }
+            return cinema;
         } else if (role == Role.ADMIN) {
             // ToDo use the User repository here
-            return null;
+            Admin admin = adminService.getAdmin(username);
+            if(admin !=null){
+                return admin;
+            }
         };
 
-        throw new UsernameNotFoundException("User not found with username: " + username);
+        throw new UsernameNotFoundException("User/Cinema not found with username: " + username);
     }
 }
