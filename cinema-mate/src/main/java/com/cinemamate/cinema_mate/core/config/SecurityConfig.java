@@ -35,7 +35,9 @@ public class SecurityConfig {
                 csrf(csrf ->csrf.disable())
                 .authorizeHttpRequests(
                         authz ->authz.requestMatchers("/api/v1/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers("/api/v1/movie/**").permitAll()
+                                .requestMatchers("/**").permitAll()
+//                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

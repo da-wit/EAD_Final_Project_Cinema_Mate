@@ -24,4 +24,9 @@ public class MovieExceptions extends RuntimeException {
         return  new MovieExceptions(message,"409",HttpStatus.CONFLICT);
     }
 
+    public static MovieExceptions movieNotFound(String id){
+        String message = String.format("movie with id: %s not found",id);
+        return  new MovieExceptions(message,"404",HttpStatus.NOT_FOUND);
+    }
+
 }

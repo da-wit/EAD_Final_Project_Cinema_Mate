@@ -19,7 +19,17 @@ public class FileService {
     public String saveImage(MultipartFile imageFile){
         try{
 
-            String uploadDir = fileConfig.getUploadDir();
+
+            System.out.println("inside file service");
+
+            if (imageFile == null || imageFile.isEmpty()) {
+                throw new RuntimeException("No file uploaded");
+            }
+
+            String projectDir = System.getProperty("user.dir");
+            System.out.println(projectDir);
+
+            String uploadDir = Paths.get(projectDir, "src", "assets", "movieImage").toString();
             Path directoryPath = Paths.get(uploadDir);
 
             if(Files.notExists(directoryPath)){
@@ -30,12 +40,15 @@ public class FileService {
             String uniqueName = UUID.randomUUID().toString()+"_"+originalFileName;
 
             Path filePath = directoryPath.resolve(uniqueName);
+            System.out.println("first breaking point");
 
             imageFile.transferTo(filePath.toFile());
 
+            System.out.println("Second breaking point");
             return fileConfig.getMoviePath()+uniqueName;
 
         }catch (IOException e){
+            e.printStackTrace();
             throw new RuntimeException("Failed to upload image");
         }
     }

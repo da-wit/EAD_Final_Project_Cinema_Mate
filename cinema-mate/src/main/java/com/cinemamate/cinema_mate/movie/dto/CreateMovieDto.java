@@ -28,6 +28,4 @@ public class CreateMovieDto {
     @NotNull(message = "Seats are required")
     @Min(value = 1, message = "Seats must be at least 1")
     private Long seats;
-
-    private String imagePath;
 }
