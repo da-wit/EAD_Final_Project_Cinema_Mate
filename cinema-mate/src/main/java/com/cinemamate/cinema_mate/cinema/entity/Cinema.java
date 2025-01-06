@@ -2,6 +2,7 @@ package com.cinemamate.cinema_mate.cinema.entity;
 
 import com.cinemamate.cinema_mate.core.base.AuditableEntity;
 import com.cinemamate.cinema_mate.core.constant.Role;
+import com.cinemamate.cinema_mate.movie.entity.Movie;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -50,6 +51,9 @@ public class Cinema extends AuditableEntity implements UserDetails {
     @Column(name = "role", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "cinema",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Movie> movies;
 
 
     @Override

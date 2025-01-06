@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface CinemaRepository extends JpaRepository<Cinema, UUID> {
     Optional<Cinema> findCinemaByCinemaname(String cinemaname);
+    Optional<Cinema> findCinemaById(String id);;
 }
