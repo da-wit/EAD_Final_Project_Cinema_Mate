@@ -10,4 +10,5 @@ public interface ICinemaService {
     boolean cinemaExists(String cinemaName);
     Cinema getCinema(String cinemaName);
     CinemaDto saveCinema(Cinema cinema);
+    Cinema getCinemaById(String id);
 }

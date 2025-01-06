@@ -1,5 +1,6 @@
 package com.cinemamate.cinema_mate.movie.entity;
 
+import com.cinemamate.cinema_mate.cinema.entity.Cinema;
 import com.cinemamate.cinema_mate.core.base.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +35,10 @@ public class Movie extends AuditableEntity {
     @Column(name = "imagepath",nullable = false,length = 1000)
     @Setter
     private String imagePath;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cinema_id",nullable = false)
+    private Cinema cinema;
 
 }

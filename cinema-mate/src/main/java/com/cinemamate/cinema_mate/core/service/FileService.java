@@ -52,4 +52,31 @@ public class FileService {
             throw new RuntimeException("Failed to upload image");
         }
     }
+
+
+    public void deleteImage(String imagePath) {
+        try {
+
+            String projectDir = System.getProperty("user.dir");
+
+
+            String fileName = Paths.get(imagePath).getFileName().toString();
+
+
+            String uploadDir = Paths.get(projectDir, "src", "assets", "movieImage").toString();
+            Path filePath = Paths.get(uploadDir, fileName);
+
+
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+                System.out.println("Image deleted successfully: " + fileName);
+            } else {
+                System.out.println("Image not found: " + fileName);
+                throw new RuntimeException("Image not found: " + fileName);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to delete image: " + imagePath);
+        }
+    }
 }

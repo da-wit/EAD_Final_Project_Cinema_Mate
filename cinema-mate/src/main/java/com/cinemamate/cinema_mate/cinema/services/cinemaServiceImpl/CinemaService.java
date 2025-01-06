@@ -19,8 +19,6 @@ public class CinemaService implements ICinemaService {
     @Override
     public CinemaDto getCinemaByCinemaName(String cinemaName) {
         Cinema cinema = cinemaRepository.findCinemaByCinemaname(cinemaName).orElseThrow(() -> CinemaExceptions.cinemaNameNotFound(cinemaName));
-
-
         return CinemaMapper.cinemaToCinemaDto(cinema);
     }
 
@@ -43,6 +41,11 @@ public class CinemaService implements ICinemaService {
         cinemaRepository.save(cinema);
 
         return CinemaMapper.cinemaToCinemaDto(cinema);
+    }
+
+    @Override
+    public Cinema getCinemaById(String id) {
+        return cinemaRepository.findCinemaById(id).orElse(null);
     }
 
 
