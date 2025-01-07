@@ -1,6 +1,7 @@
 package com.cinemamate.cinema_mate.auth.services.authenticationServiceImpl;
 
 import com.cinemamate.cinema_mate.admin.exceptions.AuthExceptions;
+import com.cinemamate.cinema_mate.admin.services.IAdminService;
 import com.cinemamate.cinema_mate.admin.services.adminServiceImpl.AdminService;
 import com.cinemamate.cinema_mate.auth.dto.AuthRequest;
 import com.cinemamate.cinema_mate.auth.dto.AuthResponse;
@@ -8,11 +9,13 @@ import com.cinemamate.cinema_mate.auth.services.IAuthenticationService;
 import com.cinemamate.cinema_mate.auth.util.JwtUtil;
 import com.cinemamate.cinema_mate.cinema.dto.CreateCinemaDto;
 import com.cinemamate.cinema_mate.cinema.entity.Cinema;
+import com.cinemamate.cinema_mate.cinema.services.ICinemaService;
 import com.cinemamate.cinema_mate.cinema.services.cinemaServiceImpl.CinemaService;
 import com.cinemamate.cinema_mate.core.constant.Role;
 import com.cinemamate.cinema_mate.core.security.CustomUserDetailsService;
 import com.cinemamate.cinema_mate.user.dto.CreateUserDto;
 import com.cinemamate.cinema_mate.user.entity.User;
+import com.cinemamate.cinema_mate.user.services.IUserService;
 import com.cinemamate.cinema_mate.user.services.userServiceImpl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,9 +31,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
 
-    private final UserService userService;
-    private final CinemaService cinemaService;
-    private final AdminService adminService;
+    private final IUserService userService;
+    private final ICinemaService cinemaService;
+    private final IAdminService adminService;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;

@@ -21,6 +21,9 @@ public class UpdateMovieDto {
     @NotNull(message = "Duration is required")
     private LocalTime duration;
 
+    @NotNull(message = "View time is required")
+    private LocalTime viewTime;
+
     @NotNull(message = "View date is required")
     @FutureOrPresent(message = "View date cannot be in the past")
     private LocalDate viewDate;

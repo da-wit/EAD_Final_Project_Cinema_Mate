@@ -12,9 +12,11 @@ public class MovieDto {
     private String title;
     private String description;
     private LocalTime duration;
+    private LocalTime viewTime;
     private LocalDate viewDate;
     private Long seats;
     private String imagePath;
+    private boolean isActive;
 }
 
 

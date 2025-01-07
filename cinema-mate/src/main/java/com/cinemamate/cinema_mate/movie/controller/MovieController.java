@@ -26,6 +26,11 @@ public class MovieController {
     public ResponseEntity<List<MovieDto>> getAllMovies(){
         return ResponseEntity.ok(movieService.getAllMovies());
     }
+    @PreAuthorize("hasAuthority('CINEMA')")
+    @GetMapping("/datepassed")
+    public ResponseEntity<List<MovieDto>> getAllDatePassedMovies(){
+        return ResponseEntity.ok(movieService.getAllDatePassedMovies());
+    }
     @GetMapping("/{id}")
     public ResponseEntity<MovieDetailDto> getMovieById(@PathVariable("id") String movieId){
         return ResponseEntity.ok(movieService.getMovieById(movieId));
@@ -33,6 +38,12 @@ public class MovieController {
     @GetMapping("/cinema/{id}")
     public  ResponseEntity<List<MovieDto>> getMoviesByCinemaId(@PathVariable("id") String cinemaId){
         return ResponseEntity.ok(movieService.getMoviesByCinemaId(cinemaId));
+    }
+    @PreAuthorize("hasAuthority('CINEMA')")
+    @GetMapping("/cinema")
+    public  ResponseEntity<List<MovieDto>> getMoviesByCinema(Principal principal){
+        String cinemaName = principal.getName();
+        return ResponseEntity.ok(movieService.getMoviesByCinema(cinemaName));
     }
 
     @PreAuthorize("hasAuthority('CINEMA')")

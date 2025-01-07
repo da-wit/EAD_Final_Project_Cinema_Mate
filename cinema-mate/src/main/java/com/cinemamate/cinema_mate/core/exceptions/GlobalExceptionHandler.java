@@ -3,7 +3,9 @@ package com.cinemamate.cinema_mate.core.exceptions;
 import com.cinemamate.cinema_mate.admin.exceptions.AuthExceptions;
 import com.cinemamate.cinema_mate.cinema.exceptions.CinemaExceptions;
 import com.cinemamate.cinema_mate.core.entity.ErrorDetail;
+import com.cinemamate.cinema_mate.movie.exceptions.MovieExceptions;
 import com.cinemamate.cinema_mate.user.exceptions.UserExceptions;
+import com.cinemamate.cinema_mate.watchlist.exceptions.WatchListExceptions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -38,6 +40,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CinemaExceptions.class)
     public ResponseEntity<ErrorDetail> cinemaExceptionHandler(CinemaExceptions e,WebRequest webRequest){
+        ErrorDetail errorDetail = ErrorDetail.builder()
+                .message(e.getMessage())
+                .details(webRequest.getDescription(false))
+                .timestamp(new Date())
+                .build();
+        return  new ResponseEntity<>(errorDetail,e.getHttpStatus());
+    }
+
+    @ExceptionHandler(MovieExceptions.class)
+    public ResponseEntity<ErrorDetail> movieExceptionHandler(MovieExceptions e,WebRequest webRequest){
+        ErrorDetail errorDetail = ErrorDetail.builder()
+                .message(e.getMessage())
+                .details(webRequest.getDescription(false))
+                .timestamp(new Date())
+                .build();
+        return  new ResponseEntity<>(errorDetail,e.getHttpStatus());
+    }
+
+    @ExceptionHandler(WatchListExceptions.class)
+    public ResponseEntity<ErrorDetail> watchListExceptionHandler(WatchListExceptions e,WebRequest webRequest){
         ErrorDetail errorDetail = ErrorDetail.builder()
                 .message(e.getMessage())
                 .details(webRequest.getDescription(false))
