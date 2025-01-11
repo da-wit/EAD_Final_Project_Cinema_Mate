@@ -41,11 +41,13 @@ public class BookingController {
         String userName = principal.getName();
         return new ResponseEntity<>(bookingService.bookAMovie(userName,movieId,bookingRequestDto.getSeats()), HttpStatus.CREATED);
     }
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{id}")
     public ResponseEntity<String> updateBooking(@PathVariable("id") String bookingId,Principal principal,@Valid  @RequestBody BookingRequestDto bookingRequestDto){
         String userName = principal.getName();
         return  ResponseEntity.ok(bookingService.updateBookedNumberOfSeats(userName,bookingId,bookingRequestDto.getSeats()));
     }
+    @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> updateBooking(@PathVariable("id") String bookingId,Principal principal){
         String userName = principal.getName();
