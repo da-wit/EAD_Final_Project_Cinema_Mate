@@ -20,4 +20,6 @@ public interface IMovieService {
     List<MovieDto> getMoviesByCinemaId(String cinemaId);
     // this returns the movies of the currently logged in cinema
     List<MovieDto> getMoviesByCinema(String cinemaName);
+
+    Long getTotalMovieSeats(String movieId);
 }

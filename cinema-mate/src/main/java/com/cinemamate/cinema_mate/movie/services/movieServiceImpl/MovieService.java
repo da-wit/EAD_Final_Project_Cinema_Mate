@@ -141,6 +141,12 @@ public class MovieService implements IMovieService {
         return movies.stream().map(MovieMapper::movieToMovieDto).collect(Collectors.toList());
     }
 
+    @Override
+    public Long getTotalMovieSeats(String movieId) {
+        Movie movie = movieRepository.findMovieById(movieId).orElseThrow(() -> MovieExceptions.movieNotFound(movieId));
+        return movie.getSeats();
+    }
+
 
     @Scheduled(cron = "0 0 0 * * *") // Runs daily at midnight
 //    @Scheduled(cron = "0 0/2 * * * *")
