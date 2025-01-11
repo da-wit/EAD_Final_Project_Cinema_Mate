@@ -1,5 +1,6 @@
 package com.cinemamate.cinema_mate.user.entity;
 
+import com.cinemamate.cinema_mate.booking.entity.Booking;
 import com.cinemamate.cinema_mate.core.base.AuditableEntity;
 import com.cinemamate.cinema_mate.core.constant.Role;
 import com.cinemamate.cinema_mate.watchlist.entity.WatchList;
@@ -50,6 +51,8 @@ public class User extends AuditableEntity implements UserDetails {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<WatchList> watchLists;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Booking> bookings;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

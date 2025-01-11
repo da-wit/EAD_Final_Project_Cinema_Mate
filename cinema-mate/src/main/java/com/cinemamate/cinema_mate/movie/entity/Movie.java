@@ -1,5 +1,6 @@
 package com.cinemamate.cinema_mate.movie.entity;
 
+import com.cinemamate.cinema_mate.booking.entity.Booking;
 import com.cinemamate.cinema_mate.cinema.entity.Cinema;
 import com.cinemamate.cinema_mate.core.base.AuditableEntity;
 import com.cinemamate.cinema_mate.watchlist.entity.WatchList;
@@ -56,5 +57,8 @@ public class Movie extends AuditableEntity {
     @Setter
     @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<WatchList> watchLists;
+
+    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Booking> bookings;
 
 }
