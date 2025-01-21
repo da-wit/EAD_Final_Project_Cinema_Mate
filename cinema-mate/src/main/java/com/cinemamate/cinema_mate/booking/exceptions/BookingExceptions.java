@@ -30,6 +30,10 @@ public class BookingExceptions extends RuntimeException{
         String message = "Requested seats exceed the available seats.";
         return new BookingExceptions(message,"409",HttpStatus.CONFLICT);
     }
+    public static BookingExceptions bookingCodeNotFound(String code){
+        String message = String.format("Booking with code: %s not found",code);
+        return new BookingExceptions(message,"404",HttpStatus.NOT_FOUND);
+    }
 
 
 
