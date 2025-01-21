@@ -2,6 +2,7 @@ package com.cinemamate.cinema_mate.booking.services.bookingServiceImpl;
 
 import com.cinemamate.cinema_mate.booking.dto.BookingCinemaDto;
 import com.cinemamate.cinema_mate.booking.dto.BookingDto;
+import com.cinemamate.cinema_mate.booking.dto.VerificationDto;
 import com.cinemamate.cinema_mate.booking.entity.Booking;
 import com.cinemamate.cinema_mate.booking.exceptions.BookingExceptions;
 import com.cinemamate.cinema_mate.booking.mapper.BookingMapper;
@@ -119,6 +120,22 @@ public class BookingService implements IBookingService {
         }
         List<Booking> bookings = bookingRepository.findAllByMovie_Cinema_id(cinema.getId()).orElse(new ArrayList<>());
         return bookings.stream().map(BookingMapper::bookingToBookingCinemaDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean verifyCode(VerificationDto verificationDto, String cinemaName) {
+        Cinema cinema = cinemaService.getCinema(cinemaName);
+        if(cinema == null){
+            throw CinemaExceptions.cinemaNameNotFound(cinemaName);
+        }
+        User user = userService.getUser(verificationDto.getUserName());
+        if (user == null){
+            throw UserExceptions.usernameNotFound(verificationDto.getUserName());
+        }
+
+        Booking booking = bookingRepository.findBookingByBookingCode(verificationDto.getBookingCode()).orElseThrow(() -> BookingExceptions.bookingCodeNotFound(verificationDto.getBookingCode()));
+
+        return booking.getUser().getId() == user.getId();
     }
 
     @Override

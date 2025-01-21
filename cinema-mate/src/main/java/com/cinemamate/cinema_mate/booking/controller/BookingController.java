@@ -3,6 +3,7 @@ package com.cinemamate.cinema_mate.booking.controller;
 import com.cinemamate.cinema_mate.booking.dto.BookingCinemaDto;
 import com.cinemamate.cinema_mate.booking.dto.BookingDto;
 import com.cinemamate.cinema_mate.booking.dto.BookingRequestDto;
+import com.cinemamate.cinema_mate.booking.dto.VerificationDto;
 import com.cinemamate.cinema_mate.booking.services.IBookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,14 @@ public class BookingController {
         String cinemaName = principal.getName();
         return ResponseEntity.ok(bookingService.getCinemaBookings(cinemaName));
     }
+
+    @PreAuthorize("hasAuthority('CINEMA')")
+    @GetMapping("/verify")
+    public ResponseEntity<Boolean> verify(@Valid @RequestBody VerificationDto verificationDto,Principal principal){
+        String cinemaName = principal.getName();
+        return ResponseEntity.ok(bookingService.verifyCode(verificationDto,cinemaName));
+    }
+
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/{id}")

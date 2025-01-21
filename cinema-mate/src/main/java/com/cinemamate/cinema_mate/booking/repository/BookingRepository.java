@@ -19,4 +19,8 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
     Optional<List<Booking>> findAllByUser(User user);
 
     Optional<List<Booking>> findAllByMovie_Cinema_id(String movieCinemaId);
+
+    Optional<Booking> findBookingByUserAndBookingCode(User user, String bookingCode);
+
+    Optional<Booking> findBookingByBookingCode(String bookingCode);
 }

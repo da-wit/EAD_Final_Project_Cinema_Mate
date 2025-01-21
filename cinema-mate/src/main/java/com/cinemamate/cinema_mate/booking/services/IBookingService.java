@@ -2,6 +2,7 @@ package com.cinemamate.cinema_mate.booking.services;
 
 import com.cinemamate.cinema_mate.booking.dto.BookingCinemaDto;
 import com.cinemamate.cinema_mate.booking.dto.BookingDto;
+import com.cinemamate.cinema_mate.booking.dto.VerificationDto;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public interface IBookingService {
     // getAll user Booked movies
     List<BookingDto> getUserBookings(String userName);
     List<BookingCinemaDto> getCinemaBookings(String cinemaName);
+    boolean verifyCode(VerificationDto verificationDto, String cinemaName);
 
 
     long numberOfBookedSeats(String movieId);
