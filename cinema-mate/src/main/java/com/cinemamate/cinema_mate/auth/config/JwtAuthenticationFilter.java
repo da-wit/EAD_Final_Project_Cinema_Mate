@@ -1,5 +1,6 @@
 package com.cinemamate.cinema_mate.auth.config;
 
+import com.cinemamate.cinema_mate.auth.exceptions.AuthExceptions;
 import com.cinemamate.cinema_mate.auth.util.JwtUtil;
 import com.cinemamate.cinema_mate.core.constant.Role;
 import com.cinemamate.cinema_mate.core.security.CustomUserDetailsService;
@@ -41,10 +42,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String username;
         final Role role;
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+        try{
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ") || !jwtUtil.validateToken(authHeader.substring(7)) ){
             filterChain.doFilter(request,response);
             return;
         }
+
 
         jwt = authHeader.substring(7);
         username =jwtUtil.extractUsername(jwt);
@@ -66,6 +70,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
+        }
+        // here catch any auth exception is thrown
+        }catch (AuthExceptions ex) {
+            request.setAttribute("exceptionMessage", ex.getMessage());
         }
         filterChain.doFilter(request,response);
 

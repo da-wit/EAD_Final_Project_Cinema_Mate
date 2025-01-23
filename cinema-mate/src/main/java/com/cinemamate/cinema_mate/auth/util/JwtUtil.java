@@ -1,9 +1,8 @@
 package com.cinemamate.cinema_mate.auth.util;
 
+import com.cinemamate.cinema_mate.auth.exceptions.AuthExceptions;
 import com.cinemamate.cinema_mate.core.constant.Role;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,12 +34,29 @@ public class JwtUtil {
     }
 
     public boolean isTokenExpired(String token){
-        return extractExpirationDate(token).before(new Date());
+        try {
+            System.out.println("inside token expired");
+            return  extractExpirationDate(token).before(new Date());
+        }catch (ExpiredJwtException e){
+            throw AuthExceptions.expiredToken();
+        }
     }
 
-    public boolean isTokenValid(String token,UserDetails userDetails){
+    public boolean isTokenValid(String token,UserDetails userDetails) {
         String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+//        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        try{
+            if(!username.equals(userDetails.getUsername())){
+                throw AuthExceptions.invalidToken();
+            }
+            if(isTokenExpired(token)){
+                throw AuthExceptions.invalidToken();
+            }
+            return  true;
+
+        } catch (JwtException e) {
+            throw AuthExceptions.invalidToken();
+        }
     }
 
 
@@ -50,13 +66,28 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims (String jwt){
+
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
                 .parseClaimsJws(jwt)
                 .getBody();
+
     }
 
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException ex) {
+            throw  AuthExceptions.expiredToken();
+        } catch (JwtException ex) {
+            throw AuthExceptions.invalidToken();
+        }
+    }
     // token generator
     public String generateToken(UserDetails  userDetails){
         System.out.println(userDetails.getUsername());
