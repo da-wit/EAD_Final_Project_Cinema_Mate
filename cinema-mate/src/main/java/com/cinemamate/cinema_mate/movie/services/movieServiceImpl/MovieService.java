@@ -83,6 +83,9 @@ public class MovieService implements IMovieService {
         movie.setViewDate(updateMovieDto.getViewDate());
         movie.setSeats(updateMovieDto.getSeats());
         movie.setImagePath(savedImagePath);
+
+        movieRepository.save(movie);
+
         return MovieMapper.movieToMovieDto(movie);
     }
 

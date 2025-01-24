@@ -35,9 +35,13 @@ public class User extends AuditableEntity implements UserDetails {
     @Column(name = "email",nullable = false)
     private String email;
 
-//    @Setter
+    @Setter
     @Column(name = "password",nullable = false)
     private String password;
+
+    @Setter
+    @Column(name = "profile",nullable = false)
+    private String profileImage;
     @Getter
     @Setter
     @Column(name = "isActive",nullable = false)

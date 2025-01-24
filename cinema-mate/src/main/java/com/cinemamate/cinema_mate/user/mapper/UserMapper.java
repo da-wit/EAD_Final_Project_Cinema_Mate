@@ -10,6 +10,7 @@ public class UserMapper {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
+                .profileImage(user.getProfileImage())
                 .isActive(user.isActive())
                 .role(user.getRole())
                 .build();
