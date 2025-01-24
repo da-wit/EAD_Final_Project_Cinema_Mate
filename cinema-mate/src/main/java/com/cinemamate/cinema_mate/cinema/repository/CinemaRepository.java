@@ -7,6 +7,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CinemaRepository extends JpaRepository<Cinema, UUID> {
-    Optional<Cinema> findCinemaByCinemaname(String cinemaname);
+    Optional<Cinema> findCinemaByCinemaName(String cinemaName);
     Optional<Cinema> findCinemaById(String id);;
+
+    boolean existsByCinemaName(String cinemaName);
+
+    boolean existsByEmail(String email);
+
 }

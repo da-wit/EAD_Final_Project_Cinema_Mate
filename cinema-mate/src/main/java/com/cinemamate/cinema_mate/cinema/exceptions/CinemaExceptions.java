@@ -1,5 +1,6 @@
 package com.cinemamate.cinema_mate.cinema.exceptions;
 
+import com.cinemamate.cinema_mate.user.exceptions.UserExceptions;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
@@ -48,6 +49,21 @@ public class CinemaExceptions extends RuntimeException {
     public static CinemaExceptions cinemaNameNotFound(String cinemaName) {
         String message = String.format("Cinema with cinemaName %s not found.", cinemaName);
         return new CinemaExceptions(message, null, "404", HttpStatus.NOT_FOUND);
+    }
+
+    public static CinemaExceptions cinemaNameAlreadyTaken(){
+        String message = "Cinema name already taken";
+        return  new CinemaExceptions(message,null,"409",HttpStatus.CONFLICT);
+    }
+
+    public static CinemaExceptions emailAlreadyRegistered(){
+        String message = "Email already registered";
+        return  new CinemaExceptions(message,null,"409",HttpStatus.CONFLICT);
+    }
+
+    public static CinemaExceptions incorrectOldPassword() {
+        String message = "The old password you entered is incorrect.";
+        return new CinemaExceptions(message, null, "400", HttpStatus.BAD_REQUEST);
     }
 
     // Static factory method for "Bad Request" exception

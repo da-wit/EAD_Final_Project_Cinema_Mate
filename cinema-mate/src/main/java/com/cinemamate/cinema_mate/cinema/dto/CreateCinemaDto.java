@@ -12,7 +12,7 @@ import lombok.Data;
 public class CreateCinemaDto {
     @NotEmpty
     @Size(min = 3,message = "CinemaName can not be less than 3 characters.")
-    private String cinemaname;
+    private String cinemaName;
     @Email
     private String email;
     @NotEmpty
