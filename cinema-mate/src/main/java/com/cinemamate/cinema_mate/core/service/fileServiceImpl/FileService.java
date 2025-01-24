@@ -1,6 +1,7 @@
 package com.cinemamate.cinema_mate.core.service.fileServiceImpl;
 
 import com.cinemamate.cinema_mate.core.config.FileStorageConfig;
+import com.cinemamate.cinema_mate.core.exceptions.FileExceptions;
 import com.cinemamate.cinema_mate.core.service.IFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,10 @@ public class FileService implements IFileService {
         try{
 
             if (imageFile == null || imageFile.isEmpty()) {
-                throw new RuntimeException("No file uploaded");
+                throw FileExceptions.noImageSelected();
             }
 
             String projectDir = System.getProperty("user.dir");
-            System.out.println(projectDir);
 
             String uploadDir = Paths.get(projectDir, "src", "assets", "movieImage").toString();
             Path directoryPath = Paths.get(uploadDir);
@@ -46,7 +46,7 @@ public class FileService implements IFileService {
 
         }catch (IOException e){
             e.printStackTrace();
-            throw new RuntimeException("Failed to upload image");
+            throw FileExceptions.failedToUploadImage();
         }
     }
 
@@ -66,14 +66,15 @@ public class FileService implements IFileService {
 
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
-                System.out.println("Image deleted successfully: " + fileName);
-            } else {
-                System.out.println("Image not found: " + fileName);
-                throw new RuntimeException("Image not found: " + fileName);
+//                System.out.println("Image deleted successfully: " + fileName);
             }
+//            else {
+//                System.out.println("Image not found: " + fileName);
+//                throw new RuntimeException("Image not found: " + fileName);
+//            }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to delete image: " + imagePath);
+            throw FileExceptions.ioException(e.getMessage());
         }
     }
 
@@ -82,7 +83,7 @@ public class FileService implements IFileService {
         try{
 
             if (image == null || image.isEmpty()) {
-                throw new RuntimeException("No file uploaded");
+                throw FileExceptions.noImageSelected();
             }
 
             String projectDir = System.getProperty("user.dir");
@@ -106,7 +107,7 @@ public class FileService implements IFileService {
 
         }catch (IOException e){
             e.printStackTrace();
-            throw new RuntimeException("Failed to upload image");
+            throw FileExceptions.failedToUploadImage();
         }
     }
 
@@ -115,6 +116,9 @@ public class FileService implements IFileService {
         try {
 
             String projectDir = System.getProperty("user.dir");
+            if(imageName == null){
+                return;
+            }
 
 
             String fileName = Paths.get(imageName).getFileName().toString();
@@ -127,13 +131,14 @@ public class FileService implements IFileService {
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
                 System.out.println("Image deleted successfully: " + fileName);
-            } else {
-                System.out.println("Image not found: " + fileName);
-                throw new RuntimeException("Image not found: " + fileName);
             }
+//            else {
+//                System.out.println("Image not found: " + fileName);
+//                throw FileExceptions.failedToUploadImage();
+//            }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to delete image: " + imageName);
+            throw FileExceptions.ioException(e.getMessage());
         }
     }
 
@@ -142,7 +147,7 @@ public class FileService implements IFileService {
         try{
 
             if (image == null || image.isEmpty()) {
-                throw new RuntimeException("No file uploaded");
+                throw FileExceptions.noImageSelected();
             }
 
             String projectDir = System.getProperty("user.dir");
@@ -166,7 +171,7 @@ public class FileService implements IFileService {
 
         }catch (IOException e){
             e.printStackTrace();
-            throw new RuntimeException("Failed to upload image");
+            throw FileExceptions.failedToUploadImage();
         }
     }
 
@@ -176,6 +181,9 @@ public class FileService implements IFileService {
 
             String projectDir = System.getProperty("user.dir");
 
+            if(imageName == null){
+                return;
+            }
 
             String fileName = Paths.get(imageName).getFileName().toString();
 
@@ -187,13 +195,14 @@ public class FileService implements IFileService {
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
                 System.out.println("Image deleted successfully: " + fileName);
-            } else {
-                System.out.println("Image not found: " + fileName);
-                throw new RuntimeException("Image not found: " + fileName);
             }
+//            else {
+//                System.out.println("Image not found: " + fileName);
+//                throw new RuntimeException("Image not found: " + fileName);
+//            }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to delete image: " + imageName);
+            throw FileExceptions.ioException(e.getMessage());
         }
     }
 }

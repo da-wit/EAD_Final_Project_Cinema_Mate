@@ -12,6 +12,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:" + System.getProperty("user.dir") + "/src/assets/movieImage/");
         registry.addResourceHandler("/userProfile/**")
                 .addResourceLocations("file:" + System.getProperty("user.dir") + "/src/assets/userProfile");
+        registry.addResourceHandler("/cinemaProfile/**")
+                .addResourceLocations("file:" + System.getProperty("user.dir") + "/src/assets/cinemaProfile");
     }
 }
 
