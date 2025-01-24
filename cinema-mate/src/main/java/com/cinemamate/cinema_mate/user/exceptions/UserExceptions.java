@@ -36,12 +36,16 @@ public class UserExceptions extends RuntimeException {
     }
     public static UserExceptions usernameAlreadyTaken() {
         String message = "UserName already taken";
-        return new UserExceptions(message, null, "404", HttpStatus.CONFLICT);
+        return new UserExceptions(message, null, "409", HttpStatus.CONFLICT);
     }
 
     public static UserExceptions emailAlreadyRegistered() {
         String message = "Email already registered";
-        return new UserExceptions(message, null, "404", HttpStatus.CONFLICT);
+        return new UserExceptions(message, null, "409", HttpStatus.CONFLICT);
+    }
+    public static UserExceptions incorrectOldPassword() {
+        String message = "The old password you entered is incorrect.";
+        return new UserExceptions(message, null, "400", HttpStatus.BAD_REQUEST);
     }
 
 

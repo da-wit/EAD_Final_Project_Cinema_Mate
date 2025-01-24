@@ -1,5 +1,6 @@
 package com.cinemamate.cinema_mate.user.controller;
 
+import com.cinemamate.cinema_mate.user.dto.UpdatePasswordDto;
 import com.cinemamate.cinema_mate.user.dto.UpdateUserDto;
 import com.cinemamate.cinema_mate.user.dto.UserDto;
 import com.cinemamate.cinema_mate.user.services.IUserService;
@@ -27,7 +28,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserDetail(userName));
     }
 
-    @PutMapping("profile")
+    @PutMapping("/profile")
     public ResponseEntity<String> uploadProfileImage(MultipartFile imageFile,Principal principal){
         String userName = principal.getName();
         return ResponseEntity.ok(userService.uploadProfileImage(userName,imageFile));
@@ -40,6 +41,12 @@ public class UserController {
             ){
         String userName = principal.getName();
         return ResponseEntity.ok(userService.updateUser(userName,updateUserDto));
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto,Principal principal){
+        String userName = principal.getName();
+        return ResponseEntity.ok(userService.updatePassword(userName,updatePasswordDto));
     }
 
 
