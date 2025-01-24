@@ -30,6 +30,24 @@ public class UserExceptions extends RuntimeException {
         String message = String.format("User with username %s not found.", username);
         return new UserExceptions(message, null, "404", HttpStatus.NOT_FOUND);
     }
+    public static UserExceptions usernameNotFound() {
+        String message = "User not found.";
+        return new UserExceptions(message, null, "404", HttpStatus.NOT_FOUND);
+    }
+    public static UserExceptions usernameAlreadyTaken() {
+        String message = "UserName already taken";
+        return new UserExceptions(message, null, "409", HttpStatus.CONFLICT);
+    }
+
+    public static UserExceptions emailAlreadyRegistered() {
+        String message = "Email already registered";
+        return new UserExceptions(message, null, "409", HttpStatus.CONFLICT);
+    }
+    public static UserExceptions incorrectOldPassword() {
+        String message = "The old password you entered is incorrect.";
+        return new UserExceptions(message, null, "400", HttpStatus.BAD_REQUEST);
+    }
+
 
     // Static factory method for "Bad Request" exception
     public static UserExceptions badRequest(String message) {

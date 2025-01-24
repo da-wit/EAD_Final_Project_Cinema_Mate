@@ -38,7 +38,9 @@ public class SecurityConfig {
                 csrf(csrf ->csrf.disable())
                 .authorizeHttpRequests(
                         authz ->authz.requestMatchers("/api/v1/auth/**").permitAll()
-                                .requestMatchers("/movieimage/**").permitAll()
+                                .requestMatchers("/movieImage/**").permitAll()
+                                .requestMatchers("/userProfile/**").permitAll()
+                                .requestMatchers("/cinemaProfile/**").permitAll()
 //                                .requestMatchers("/api/v1/movie/**").permitAll()
 //                                .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()

@@ -1,9 +1,10 @@
 package com.cinemamate.cinema_mate.cinema.services;
 
 import com.cinemamate.cinema_mate.cinema.dto.CinemaDto;
+import com.cinemamate.cinema_mate.cinema.dto.UpdateCinemaDto;
+import com.cinemamate.cinema_mate.cinema.dto.UpdatePasswordDto;
 import com.cinemamate.cinema_mate.cinema.entity.Cinema;
-import com.cinemamate.cinema_mate.user.dto.UserDto;
-import com.cinemamate.cinema_mate.user.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface ICinemaService {
     CinemaDto getCinemaByCinemaName(String cinemaName);
@@ -11,4 +12,10 @@ public interface ICinemaService {
     Cinema getCinema(String cinemaName);
     CinemaDto saveCinema(Cinema cinema);
     Cinema getCinemaById(String id);
+
+    CinemaDto updateCinema(String cinemaName, UpdateCinemaDto updateCinemaDto);
+    CinemaDto getCinemaDetail(String cinemaName);
+    String uploadCinemaProfile(String cinemaName, MultipartFile imageFile);
+    String updatePassword(String cinemaName, UpdatePasswordDto updatePasswordDto);
+
 }

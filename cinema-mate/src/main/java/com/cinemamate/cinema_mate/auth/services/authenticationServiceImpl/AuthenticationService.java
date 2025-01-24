@@ -14,13 +14,13 @@ import com.cinemamate.cinema_mate.core.security.CustomUserDetailsService;
 import com.cinemamate.cinema_mate.user.dto.CreateUserDto;
 import com.cinemamate.cinema_mate.user.entity.User;
 import com.cinemamate.cinema_mate.user.services.IUserService;
+import com.cinemamate.cinema_mate.core.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +72,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public AuthResponse cinemaRegister(CreateCinemaDto createCinemaDto) {
-        String username = createCinemaDto.getCinemaname();
+        String username = createCinemaDto.getCinemaName();
         boolean userExists = userService.userExists(username);
         System.out.println("sdkfkdshfdf");
         System.out.println(userExists);
@@ -91,7 +91,7 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         Cinema cinema = Cinema.builder()
-                .cinemaname(createCinemaDto.getCinemaname())
+                .cinemaName(createCinemaDto.getCinemaName())
                 .email(createCinemaDto.getEmail())
                 .password(passwordEncoder.encode(createCinemaDto.getPassword()))
                 .description(createCinemaDto.getDescription())
@@ -125,7 +125,7 @@ public class AuthenticationService implements IAuthenticationService {
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("No role found for the user"));
 
-            UserDetails userDetails = customUserDetailsService.loadUserByUsernameAndRole(username, Role.valueOf(role));
+            CustomUserDetails userDetails = customUserDetailsService.loadUserByUsernameAndRole(username, Role.valueOf(role));
             System.out.println("before generating the token");
             String token = jwtUtil.generateToken(userDetails);
 

@@ -2,12 +2,12 @@ package com.cinemamate.cinema_mate.auth.util;
 
 import com.cinemamate.cinema_mate.auth.exceptions.AuthExceptions;
 import com.cinemamate.cinema_mate.core.constant.Role;
+import com.cinemamate.cinema_mate.core.security.CustomUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -28,6 +28,9 @@ public class JwtUtil {
         String roleAsSting =  extractClaim(token,claims -> claims.get("role",String.class));
         return Role.valueOf(roleAsSting);
     }
+    public String extractId(String token){
+        return extractClaim(token, claims -> claims.get("id",String.class));
+    }
 
     public Date extractExpirationDate(String token){
         return extractClaim(token,Claims::getExpiration);
@@ -42,13 +45,17 @@ public class JwtUtil {
         }
     }
 
-    public boolean isTokenValid(String token,UserDetails userDetails) {
+    public boolean isTokenValid(String token, CustomUserDetails userDetails) {
         String username = extractUsername(token);
+        String id = extractId(token);
 //        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
         try{
-            if(!username.equals(userDetails.getUsername())){
+            if(!id.equals(userDetails.getId())){
                 throw AuthExceptions.invalidToken();
             }
+//            if(!username.equals(userDetails.getUsername())){
+//                throw AuthExceptions.invalidToken();
+//            }
             if(isTokenExpired(token)){
                 throw AuthExceptions.invalidToken();
             }
@@ -89,7 +96,7 @@ public class JwtUtil {
         }
     }
     // token generator
-    public String generateToken(UserDetails  userDetails){
+    public String generateToken(CustomUserDetails userDetails){
         System.out.println(userDetails.getUsername());
         System.out.println(userDetails.getAuthorities());
         String role = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()).iterator().next();
@@ -97,6 +104,7 @@ public class JwtUtil {
         System.out.println(role);
         System.out.println("inside generate token");
         return Jwts.builder()
+                .claim("id",userDetails.getId())
                 .claim("role",role)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))

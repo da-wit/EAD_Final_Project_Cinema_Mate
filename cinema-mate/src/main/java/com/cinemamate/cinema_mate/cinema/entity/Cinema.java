@@ -2,6 +2,7 @@ package com.cinemamate.cinema_mate.cinema.entity;
 
 import com.cinemamate.cinema_mate.core.base.AuditableEntity;
 import com.cinemamate.cinema_mate.core.constant.Role;
+import com.cinemamate.cinema_mate.core.security.CustomUserDetails;
 import com.cinemamate.cinema_mate.movie.entity.Movie;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +21,7 @@ import java.util.List;
 @Table(
         name = "cinema"
 )
-public class Cinema extends AuditableEntity implements UserDetails {
+public class Cinema extends AuditableEntity implements CustomUserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "VARCHAR(36)", nullable = false, unique = true)
@@ -28,7 +29,7 @@ public class Cinema extends AuditableEntity implements UserDetails {
 
     @Setter
     @Column(name = "cinemaname", nullable = false)
-    private String cinemaname;
+    private String cinemaName;
 
     @Setter
     @Column(name = "email", nullable = false)
@@ -41,6 +42,10 @@ public class Cinema extends AuditableEntity implements UserDetails {
     @Setter
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Setter
+    @Column(name = "profile",nullable = true)
+    private String profileImage;
 
     @Setter
     @Column(name = "isActive", nullable = false)
@@ -67,7 +72,7 @@ public class Cinema extends AuditableEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return cinemaname;
+        return cinemaName;
     }
 
     @Override
@@ -88,5 +93,10 @@ public class Cinema extends AuditableEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 }

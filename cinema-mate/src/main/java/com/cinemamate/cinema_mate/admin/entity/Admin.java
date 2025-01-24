@@ -1,6 +1,7 @@
 package com.cinemamate.cinema_mate.admin.entity;
 
 import com.cinemamate.cinema_mate.core.constant.Role;
+import com.cinemamate.cinema_mate.core.security.CustomUserDetails;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "admin")
-public class Admin implements UserDetails {
+public class Admin implements CustomUserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -69,4 +70,8 @@ public class Admin implements UserDetails {
         return true;
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
 }

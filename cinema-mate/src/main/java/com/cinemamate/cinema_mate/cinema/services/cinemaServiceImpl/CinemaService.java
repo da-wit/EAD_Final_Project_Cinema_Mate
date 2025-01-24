@@ -1,39 +1,43 @@
 package com.cinemamate.cinema_mate.cinema.services.cinemaServiceImpl;
 
 import com.cinemamate.cinema_mate.cinema.dto.CinemaDto;
+import com.cinemamate.cinema_mate.cinema.dto.UpdateCinemaDto;
+import com.cinemamate.cinema_mate.cinema.dto.UpdatePasswordDto;
 import com.cinemamate.cinema_mate.cinema.entity.Cinema;
 import com.cinemamate.cinema_mate.cinema.exceptions.CinemaExceptions;
 import com.cinemamate.cinema_mate.cinema.mapper.CinemaMapper;
 import com.cinemamate.cinema_mate.cinema.repository.CinemaRepository;
 import com.cinemamate.cinema_mate.cinema.services.ICinemaService;
-import com.cinemamate.cinema_mate.user.entity.User;
+import com.cinemamate.cinema_mate.core.service.ICinemaUserHelper;
+import com.cinemamate.cinema_mate.core.service.fileServiceImpl.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class CinemaService implements ICinemaService {
 
     private final CinemaRepository cinemaRepository;
+    private final ICinemaUserHelper cinemaUserHelper;
+    private final FileService fileService;
+    private  final  PasswordEncoder passwordEncoder;
 
     @Override
     public CinemaDto getCinemaByCinemaName(String cinemaName) {
-        Cinema cinema = cinemaRepository.findCinemaByCinemaname(cinemaName).orElseThrow(() -> CinemaExceptions.cinemaNameNotFound(cinemaName));
+        Cinema cinema = cinemaRepository.findCinemaByCinemaName(cinemaName).orElseThrow(() -> CinemaExceptions.cinemaNameNotFound(cinemaName));
         return CinemaMapper.cinemaToCinemaDto(cinema);
     }
 
     @Override
     public boolean cinemaExists(String cinemaName) {
-        Cinema cinema = cinemaRepository.findCinemaByCinemaname(cinemaName).orElse(null);
-        if (cinema != null) {
-            return true;
-        }
-        return false;
+        return cinemaRepository.existsByCinemaName(cinemaName);
     }
 
     @Override
     public Cinema getCinema(String cinemaName) {
-        return cinemaRepository.findCinemaByCinemaname(cinemaName).orElse(null);
+        return cinemaRepository.findCinemaByCinemaName(cinemaName).orElse(null);
     }
 
     @Override
@@ -45,7 +49,62 @@ public class CinemaService implements ICinemaService {
 
     @Override
     public Cinema getCinemaById(String id) {
-        return cinemaRepository.findCinemaById(id).orElse(null);
+        return cinemaRepository.findCinemaById(id).orElseThrow(()-> CinemaExceptions.notFound(id));
+    }
+
+    @Override
+    public
+    CinemaDto updateCinema(String cinemaName, UpdateCinemaDto updateCinemaDto) {
+        Cinema cinema = cinemaRepository.findCinemaByCinemaName(cinemaName).orElseThrow(()-> CinemaExceptions.cinemaNameNotFound(cinemaName));
+        if(!cinema.getCinemaName().equals(updateCinemaDto.getCinemaName())){
+            boolean cinemaNameExists = cinemaUserHelper.isNameConflict(updateCinemaDto.getCinemaName());
+            if (cinemaNameExists){
+                throw CinemaExceptions.cinemaNameAlreadyTaken();
+            }
+        }
+        if(!cinema.getEmail().equals(updateCinemaDto.getEmail())){
+            boolean emailExists = cinemaRepository.existsByEmail(updateCinemaDto.getEmail());
+            if(emailExists){
+                throw CinemaExceptions.emailAlreadyRegistered();
+            }
+        }
+        cinema.setCinemaName(updateCinemaDto.getCinemaName());
+        cinema.setEmail(updateCinemaDto.getEmail());
+        cinema.setDescription(updateCinemaDto.getDescription());
+        cinemaRepository.save(cinema);
+//        String token = jwtUtil.generateToken(cinema);
+
+        return CinemaMapper.cinemaToCinemaDto(cinema);
+    }
+
+    @Override
+    public CinemaDto getCinemaDetail(String cinemaName) {
+        Cinema cinema = cinemaRepository.findCinemaByCinemaName(cinemaName).orElseThrow(() -> CinemaExceptions.cinemaNameNotFound(cinemaName));
+        return CinemaMapper.cinemaToCinemaDto(cinema);
+    }
+
+    @Override
+    public String uploadCinemaProfile(String cinemaName, MultipartFile imageFile) {
+
+        Cinema cinema = cinemaRepository.findCinemaByCinemaName(cinemaName).orElseThrow(() -> CinemaExceptions.cinemaNameNotFound(cinemaName));
+        System.out.println(cinema.getCinemaName());
+        fileService.deleteCinemaImage(cinema.getProfileImage());
+        String imagePath = fileService.saveCinemaImage(imageFile);
+        cinema.setProfileImage(imagePath);
+        cinemaRepository.save(cinema);
+        return cinema.getId();
+    }
+
+    @Override
+    public String updatePassword(String cinemaName, UpdatePasswordDto updatePasswordDto) {
+        Cinema cinema = cinemaRepository.findCinemaByCinemaName(cinemaName).orElseThrow(()-> CinemaExceptions.cinemaNameNotFound(cinemaName));
+        boolean passwordMatches = passwordEncoder.matches(updatePasswordDto.getOldPassword(),cinema.getPassword());
+        if(!passwordMatches){
+            throw CinemaExceptions.incorrectOldPassword();
+        }
+        cinema.setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
+        cinemaRepository.save(cinema);
+        return "password updated successfully";
     }
 
 

@@ -3,16 +3,16 @@ package com.cinemamate.cinema_mate.user.entity;
 import com.cinemamate.cinema_mate.booking.entity.Booking;
 import com.cinemamate.cinema_mate.core.base.AuditableEntity;
 import com.cinemamate.cinema_mate.core.constant.Role;
+import com.cinemamate.cinema_mate.core.security.CustomUserDetails;
 import com.cinemamate.cinema_mate.watchlist.entity.WatchList;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +21,7 @@ import java.util.UUID;
 @Table(
         name = "user"
 )
-public class User extends AuditableEntity implements UserDetails {
+public class User extends AuditableEntity implements CustomUserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "VARCHAR(36)", nullable = false, unique = true)
@@ -35,9 +35,13 @@ public class User extends AuditableEntity implements UserDetails {
     @Column(name = "email",nullable = false)
     private String email;
 
-//    @Setter
+    @Setter
     @Column(name = "password",nullable = false)
     private String password;
+
+    @Setter
+    @Column(name = "profile",nullable = true)
+    private String profileImage;
     @Getter
     @Setter
     @Column(name = "isActive",nullable = false)
@@ -87,5 +91,11 @@ public class User extends AuditableEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    @Override
+    public String getId() {
+        return id;
     }
 }

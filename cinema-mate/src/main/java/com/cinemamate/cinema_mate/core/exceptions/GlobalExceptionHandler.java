@@ -85,6 +85,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return  new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(FileExceptions.class)
+    public ResponseEntity<ErrorDetail> handleFileExceptions(FileExceptions e,WebRequest request){
+        ErrorDetail errorDetail = ErrorDetail.builder()
+                .message(e.getMessage())
+                .details(request.getDescription(false))
+                .timestamp(new Date())
+                .build();
+        return  new ResponseEntity<>(errorDetail,e.getHttpStatus());
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorDetail> handleAccessDeniedException(AccessDeniedException e, WebRequest request) {
         ErrorDetail errorDetail = ErrorDetail.builder()
