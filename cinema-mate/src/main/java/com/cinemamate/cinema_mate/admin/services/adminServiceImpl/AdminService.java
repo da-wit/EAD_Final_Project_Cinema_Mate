@@ -20,4 +20,9 @@ public class AdminService implements IAdminService {
     public boolean adminExists(String username) {
         return adminRepository.existsByUsername(username);
     }
+
+    @Override
+    public Admin getAdminById(String id) {
+        return adminRepository.getAdminById(id).orElseThrow(() -> new RuntimeException("not found"));
+    }
 }
