@@ -4,7 +4,6 @@ import com.cinemamate.cinema_mate.cinema.entity.Cinema;
 import com.cinemamate.cinema_mate.cinema.exceptions.CinemaExceptions;
 import com.cinemamate.cinema_mate.cinema.services.ICinemaService;
 import com.cinemamate.cinema_mate.core.service.IFileService;
-import com.cinemamate.cinema_mate.core.service.fileServiceImpl.FileService;
 import com.cinemamate.cinema_mate.movie.dto.CreateMovieDto;
 import com.cinemamate.cinema_mate.movie.dto.MovieDetailDto;
 import com.cinemamate.cinema_mate.movie.dto.MovieDto;
@@ -127,9 +126,6 @@ public class MovieService implements IMovieService {
     @Override
     public List<MovieDto> getMoviesByCinemaId(String cinemaId) {
         Cinema cinema = cinemaService.getCinemaById(cinemaId);
-        if(cinema == null){
-            throw CinemaExceptions.notFound(cinemaId);
-        }
         List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
 
         return movies.stream().map(MovieMapper::movieToMovieDto).collect(Collectors.toList());
@@ -165,7 +161,5 @@ public class MovieService implements IMovieService {
 
         movieRepository.saveAll(moviesToDeactivate);
     }
-
-
 
 }
