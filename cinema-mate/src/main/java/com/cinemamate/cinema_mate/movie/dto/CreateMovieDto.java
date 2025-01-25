@@ -4,8 +4,10 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -30,5 +32,9 @@ public class CreateMovieDto {
 
     @NotNull(message = "Seats are required")
     @Min(value = 1, message = "Seats must be at least 1")
-    private Long seats;
+    private long seats;
+    @NotNull(message = "Price is required")
+    private BigDecimal price;
+    @NotNull(message = "genres is required")
+    private List<String> genres;
 }

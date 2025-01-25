@@ -5,8 +5,11 @@ import com.cinemamate.cinema_mate.cinema.dto.CinemaDto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+
 @Data
 @Builder
 public class MovieDetailDto {
@@ -16,7 +19,10 @@ public class MovieDetailDto {
     private LocalTime duration;
     private LocalTime viewTime;
     private LocalDate viewDate;
-    private Long seats;
+    private long seats;
+    private long bookedSeats;
+    private BigDecimal price;
+    private List<String> genres;
     private String imagePath;
     private boolean isActive;
     private BasicCinemaDto cinema;

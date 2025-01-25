@@ -25,12 +25,13 @@ public class UserService implements IUserService {
     private final ICinemaUserHelper cinemaUserHelper;
     private  final IFileService fileService;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
 
     @Override
     public UserDto getUserByUserName(String username) {
         User user = userRepository.findUserByUsername(username).orElseThrow(() -> UserExceptions.usernameNotFound(username));
-        return UserMapper.UsertoUserDto(user);
+        return userMapper.UsertoUserDto(user);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class UserService implements IUserService {
 
     @Override
     public void saveUser(User user) {
-        UserMapper.UsertoUserDto(userRepository.save(user));
+        userMapper.UsertoUserDto(userRepository.save(user));
     }
 
     @Override
@@ -68,7 +69,7 @@ public class UserService implements IUserService {
         user.setEmail(updateUserDto.getEmail());
 
         userRepository.save(user);
-        return  UserMapper.UsertoUserDto(user);
+        return  userMapper.UsertoUserDto(user);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class UserService implements IUserService {
         if(user == null){
             throw UserExceptions.usernameNotFound();
         }
-        return UserMapper.UsertoUserDto(user);
+        return userMapper.UsertoUserDto(user);
     }
 
     @Override

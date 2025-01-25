@@ -3,6 +3,7 @@ package com.cinemamate.cinema_mate.movie.services.movieServiceImpl;
 import com.cinemamate.cinema_mate.cinema.entity.Cinema;
 import com.cinemamate.cinema_mate.cinema.exceptions.CinemaExceptions;
 import com.cinemamate.cinema_mate.cinema.services.ICinemaService;
+import com.cinemamate.cinema_mate.core.service.ICinemaUserHelper;
 import com.cinemamate.cinema_mate.core.service.IFileService;
 import com.cinemamate.cinema_mate.movie.dto.CreateMovieDto;
 import com.cinemamate.cinema_mate.movie.dto.MovieDetailDto;
@@ -33,6 +34,8 @@ public class MovieService implements IMovieService {
     private final MovieRepository movieRepository;
     private final IFileService fileService;
     private final ICinemaService cinemaService;
+    private final ICinemaUserHelper cinemaUserHelper;
+    private final MovieMapper movieMapper;
 
     @Override
     public Movie getMovie(String movieId) {
@@ -54,13 +57,15 @@ public class MovieService implements IMovieService {
                 .viewTime(createMovieDto.getViewTime())
                 .viewDate(createMovieDto.getViewDate())
                 .seats(createMovieDto.getSeats())
+                .price(createMovieDto.getPrice())
+                .genres(createMovieDto.getGenres())
                 .imagePath(savedImagePath)
                 .cinema(cinema)
                 .build();
         movieRepository.save(newMovie);
 
 
-        return MovieMapper.movieToMovieDto(newMovie);
+        return movieMapper.movieToMovieDto(newMovie);
     }
 
     @Override
@@ -85,7 +90,7 @@ public class MovieService implements IMovieService {
 
         movieRepository.save(movie);
 
-        return MovieMapper.movieToMovieDto(movie);
+        return movieMapper.movieToMovieDto(movie);
     }
 
     @Override
@@ -106,21 +111,22 @@ public class MovieService implements IMovieService {
         List<Movie> movies = movieRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt"));
         return movies.stream()
                 .filter(Movie::isActive)
-                .map(MovieMapper::movieToMovieDto).collect(Collectors.toList());
-//        return movies.stream().map(movie -> MovieMapper.movieToMovieDto(movie)).collect(Collectors.toList());
+                .map(movieMapper::movieToMovieDto).collect(Collectors.toList());
+//        return movies.stream().map(movie -> movieMapper.movieToMovieDto(movie)).collect(Collectors.toList());
     }
 
     @Override
     public List<MovieDto> getAllDatePassedMovies() {
         List<Movie> movies = movieRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt"));
-        return movies.stream().filter(movie -> !movie.isActive()).map(MovieMapper::movieToMovieDto).collect(Collectors.toList());
+        return movies.stream().filter(movie -> !movie.isActive()).map(movieMapper::movieToMovieDto).collect(Collectors.toList());
     }
 
 
     @Override
     public MovieDetailDto getMovieById(String movieId) {
         Movie movie = movieRepository.findMovieById(movieId).orElseThrow(() -> MovieExceptions.movieNotFound(movieId));
-        return MovieMapper.movieToMovieDetailDto(movie);
+        long numberOfBookedSeats = cinemaUserHelper.bookedSeats(movie.getId());
+        return movieMapper.movieToMovieDetailDto(movie);
     }
 
     @Override
@@ -128,7 +134,7 @@ public class MovieService implements IMovieService {
         Cinema cinema = cinemaService.getCinemaById(cinemaId);
         List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
 
-        return movies.stream().map(MovieMapper::movieToMovieDto).collect(Collectors.toList());
+        return movies.stream().map(movieMapper::movieToMovieDto).collect(Collectors.toList());
     }
 
     @Override
@@ -138,11 +144,11 @@ public class MovieService implements IMovieService {
             throw CinemaExceptions.cinemaNameNotFound(cinemaName);
         }
         List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
-        return movies.stream().map(MovieMapper::movieToMovieDto).collect(Collectors.toList());
+        return movies.stream().map(movieMapper::movieToMovieDto).collect(Collectors.toList());
     }
 
     @Override
-    public Long getTotalMovieSeats(String movieId) {
+    public long getTotalMovieSeats(String movieId) {
         Movie movie = movieRepository.findMovieById(movieId).orElseThrow(() -> MovieExceptions.movieNotFound(movieId));
         return movie.getSeats();
     }

@@ -11,6 +11,8 @@ import com.cinemamate.cinema_mate.booking.services.IBookingService;
 import com.cinemamate.cinema_mate.cinema.entity.Cinema;
 import com.cinemamate.cinema_mate.cinema.exceptions.CinemaExceptions;
 import com.cinemamate.cinema_mate.cinema.services.ICinemaService;
+import com.cinemamate.cinema_mate.core.service.ICinemaUserHelper;
+import com.cinemamate.cinema_mate.core.service.cinemaUserHelperImpl.CinemaUserHelper;
 import com.cinemamate.cinema_mate.core.util.BookingCodeGenerator;
 import com.cinemamate.cinema_mate.movie.entity.Movie;
 import com.cinemamate.cinema_mate.movie.exceptions.MovieExceptions;
@@ -33,9 +35,11 @@ public class BookingService implements IBookingService {
     private final IUserService userService;
     private final ICinemaService cinemaService;
     private final BookingRepository bookingRepository;
+    private final ICinemaUserHelper cinemaUserHelper;
+    private final BookingMapper bookingMapper;
 
     @Override
-    public String bookAMovie(String userName, String movieId, Long numberOfSeats) {
+    public String bookAMovie(String userName, String movieId, long numberOfSeats) {
         User user = userService.getUser(userName);
         if (user == null) {
             throw UserExceptions.usernameNotFound(userName);
@@ -65,7 +69,7 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public String updateBookedNumberOfSeats(String userName, String bookingId, Long numberOfSeats) {
+    public String updateBookedNumberOfSeats(String userName, String bookingId, long numberOfSeats) {
         User user = userService.getUser(userName);
         if (user == null) {
             throw UserExceptions.usernameNotFound(userName);
@@ -78,7 +82,7 @@ public class BookingService implements IBookingService {
         else if( movie.getSeats() - numberOfBookedSeats(movie.getId())  < numberOfSeats){
             throw BookingExceptions.insufficientSeatsAvailable();
         }
-        Long currentUserBookedSeats = booking.getNumberOfSeats();
+        long currentUserBookedSeats = booking.getNumberOfSeats();
 
         if (numberOfSeats ==0){
             bookingRepository.delete(booking);
@@ -109,7 +113,7 @@ public class BookingService implements IBookingService {
         }
         List<Booking> bookings = bookingRepository.findAllByUser(user).orElse(new ArrayList<>());
 
-        return  bookings.stream().map(BookingMapper::bookingToBookingDto).collect(Collectors.toList());
+        return  bookings.stream().map(bookingMapper::bookingToBookingDto).collect(Collectors.toList());
     }
 
     @Override
@@ -119,11 +123,11 @@ public class BookingService implements IBookingService {
             throw CinemaExceptions.cinemaNameNotFound(cinemaName);
         }
         List<Booking> bookings = bookingRepository.findAllByMovie_Cinema_id(cinema.getId()).orElse(new ArrayList<>());
-        return bookings.stream().map(BookingMapper::bookingToBookingCinemaDto).collect(Collectors.toList());
+        return bookings.stream().map(bookingMapper::bookingToBookingCinemaDto).collect(Collectors.toList());
     }
 
     @Override
-    public boolean verifyCode(VerificationDto verificationDto, String cinemaName) {
+    public BookingCinemaDto verifyCode(VerificationDto verificationDto, String cinemaName) {
         Cinema cinema = cinemaService.getCinema(cinemaName);
         if(cinema == null){
             throw CinemaExceptions.cinemaNameNotFound(cinemaName);
@@ -135,18 +139,27 @@ public class BookingService implements IBookingService {
 
         Booking booking = bookingRepository.findBookingByBookingCode(verificationDto.getBookingCode()).orElseThrow(() -> BookingExceptions.bookingCodeNotFound(verificationDto.getBookingCode()));
 
-        return booking.getUser().getId() == user.getId();
+        boolean verified = booking.getUser().getId() == user.getId();
+        if(!verified){
+            throw BookingExceptions.inCorrectVerificationCode();
+        }
+        return bookingMapper.bookingToBookingCinemaDto(booking);
     }
 
     @Override
     public long numberOfBookedSeats(String movieId) {
-        Long totalSeats = movieService.getTotalMovieSeats(movieId);
-        List<Booking> bookings = bookingRepository.findAllByMovie_Id(movieId).orElse(null);
-        if (bookings == null){
-            return 0;
-        }
-        return bookings.stream().mapToLong(Booking::getNumberOfSeats).sum();
+        return cinemaUserHelper.bookedSeats(movieId);
     }
+
+//    @Override
+//    public long numberOfBookedSeats(String movieId) {
+//        Long totalSeats = movieService.getTotalMovieSeats(movieId);
+//        List<Booking> bookings = bookingRepository.findAllByMovie_Id(movieId).orElse(null);
+//        if (bookings == null){
+//            return 0;
+//        }
+//        return bookings.stream().mapToLong(Booking::getNumberOfSeats).sum();
+//    }
 
 
 }

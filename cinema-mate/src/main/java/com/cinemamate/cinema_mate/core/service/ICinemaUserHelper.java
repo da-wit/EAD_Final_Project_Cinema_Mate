@@ -5,4 +5,5 @@ import org.springframework.stereotype.Component;
 
 public interface ICinemaUserHelper {
     boolean isNameConflict(String name);
+    long bookedSeats(String id);
 }

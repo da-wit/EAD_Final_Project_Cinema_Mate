@@ -2,15 +2,21 @@ package com.cinemamate.cinema_mate.movie.mapper;
 
 import com.cinemamate.cinema_mate.cinema.dto.BasicCinemaDto;
 import com.cinemamate.cinema_mate.cinema.mapper.CinemaMapper;
+import com.cinemamate.cinema_mate.core.service.ICinemaUserHelper;
 import com.cinemamate.cinema_mate.movie.dto.MovieDetailDto;
 import com.cinemamate.cinema_mate.movie.dto.MovieDto;
 import com.cinemamate.cinema_mate.movie.entity.Movie;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-
+@Component
+@RequiredArgsConstructor
 public class MovieMapper {
+    private final ICinemaUserHelper cinemaUserHelper;
+    private final CinemaMapper cinemaMapper;
 
-    public static MovieDto movieToMovieDto(Movie movie){
+    public MovieDto movieToMovieDto(Movie movie){
         return MovieDto.builder()
                 .id(movie.getId())
                 .title(movie.getTitle())
@@ -19,13 +25,16 @@ public class MovieMapper {
                 .viewTime(movie.getViewTime())
                 .viewDate(movie.getViewDate())
                 .seats(movie.getSeats())
+                .price(movie.getPrice())
+                .genres(movie.getGenres())
                 .imagePath(movie.getImagePath())
                 .isActive(movie.isActive())
                 .build();
     }
 
-    public static MovieDetailDto movieToMovieDetailDto(Movie movie){
-        BasicCinemaDto basicCinemaDto = CinemaMapper.cinemaToBasicCinemaDto(movie.getCinema());
+    public  MovieDetailDto movieToMovieDetailDto(Movie movie){
+        BasicCinemaDto basicCinemaDto = cinemaMapper.cinemaToBasicCinemaDto(movie.getCinema());
+        long bookedSeats = cinemaUserHelper.bookedSeats(movie.getId());
         return MovieDetailDto.builder()
                 .id(movie.getId())
                 .title(movie.getTitle())
@@ -34,6 +43,9 @@ public class MovieMapper {
                 .viewTime(movie.getViewTime())
                 .viewDate(movie.getViewDate())
                 .seats(movie.getSeats())
+                .bookedSeats(bookedSeats)
+                .price(movie.getPrice())
+                .genres(movie.getGenres())
                 .imagePath(movie.getImagePath())
                 .isActive(movie.isActive())
                 .cinema(basicCinemaDto)
