@@ -21,5 +21,5 @@ public interface IMovieService {
     // this returns the movies of the currently logged in cinema
     List<MovieDto> getMoviesByCinema(String cinemaName);
 
-    Long getTotalMovieSeats(String movieId);
+    long getTotalMovieSeats(String movieId);
 }

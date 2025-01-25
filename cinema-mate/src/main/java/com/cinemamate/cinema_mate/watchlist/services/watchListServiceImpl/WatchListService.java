@@ -24,6 +24,7 @@ public class WatchListService implements IWatchListService {
     private final WatchListRepository watchListRepository;
     private final IUserService userService;
     private final IMovieService movieService;
+    private final WatchListMapper watchListMapper;
 
     @Override
     public WatchListDto addToWatchList(String userName, String movieId) {
@@ -43,7 +44,7 @@ public class WatchListService implements IWatchListService {
                 .movie(movie)
                 .build();
         watchListRepository.save(watchList);
-        return WatchListMapper.watchListToWatchListDto(watchList);
+        return watchListMapper.watchListToWatchListDto(watchList);
     }
 
     @Override
@@ -61,6 +62,6 @@ public class WatchListService implements IWatchListService {
             throw UserExceptions.usernameNotFound(userName);
         }
         List<WatchList> watchLists = watchListRepository.findAllWatchListByUser(user);
-        return watchLists.stream().map(WatchListMapper::watchListToWatchListDto).collect(Collectors.toList());
+        return watchLists.stream().map(watchListMapper::watchListToWatchListDto).collect(Collectors.toList());
     }
 }

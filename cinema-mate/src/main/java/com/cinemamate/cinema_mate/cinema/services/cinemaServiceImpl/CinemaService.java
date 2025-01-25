@@ -23,11 +23,12 @@ public class CinemaService implements ICinemaService {
     private final ICinemaUserHelper cinemaUserHelper;
     private final FileService fileService;
     private  final  PasswordEncoder passwordEncoder;
+    private final CinemaMapper cinemaMapper;
 
     @Override
     public CinemaDto getCinemaByCinemaName(String cinemaName) {
         Cinema cinema = cinemaRepository.findCinemaByCinemaName(cinemaName).orElseThrow(() -> CinemaExceptions.cinemaNameNotFound(cinemaName));
-        return CinemaMapper.cinemaToCinemaDto(cinema);
+        return cinemaMapper.cinemaToCinemaDto(cinema);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class CinemaService implements ICinemaService {
     public CinemaDto saveCinema(Cinema cinema) {
         cinemaRepository.save(cinema);
 
-        return CinemaMapper.cinemaToCinemaDto(cinema);
+        return cinemaMapper.cinemaToCinemaDto(cinema);
     }
 
     @Override
@@ -74,13 +75,13 @@ public class CinemaService implements ICinemaService {
         cinemaRepository.save(cinema);
 //        String token = jwtUtil.generateToken(cinema);
 
-        return CinemaMapper.cinemaToCinemaDto(cinema);
+        return cinemaMapper.cinemaToCinemaDto(cinema);
     }
 
     @Override
     public CinemaDto getCinemaDetail(String cinemaName) {
         Cinema cinema = cinemaRepository.findCinemaByCinemaName(cinemaName).orElseThrow(() -> CinemaExceptions.cinemaNameNotFound(cinemaName));
-        return CinemaMapper.cinemaToCinemaDto(cinema);
+        return cinemaMapper.cinemaToCinemaDto(cinema);
     }
 
     @Override

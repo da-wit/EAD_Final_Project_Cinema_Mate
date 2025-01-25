@@ -21,7 +21,7 @@ public class Booking extends AuditableEntity {
 
     @Column(name = "numberOfSeats")
     @Setter
-    private Long numberOfSeats;
+    private long numberOfSeats;
 
     @Column(name = "bookingCode")
     @Setter

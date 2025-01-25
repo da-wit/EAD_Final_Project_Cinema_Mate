@@ -25,6 +25,10 @@ public class BookingExceptions extends RuntimeException{
         String message = "All seats have been booked out";
         return new BookingExceptions(message,"409",HttpStatus.CONFLICT);
     }
+    public static BookingExceptions inCorrectVerificationCode(){
+        String message = "Incorrect verification code";
+        return new BookingExceptions(message,"400",HttpStatus.BAD_REQUEST);
+    }
 
     public static BookingExceptions insufficientSeatsAvailable(){
         String message = "Requested seats exceed the available seats.";
