@@ -30,6 +30,7 @@ public class BookingMapper {
                 .id(booking.getId())
                 .userName(booking.getUser().getUsername())
                 .imagePath(booking.getUser().getProfileImage())
+                .bookedSeats(booking.getNumberOfSeats())
                 .totalPrice(BigDecimal.valueOf(booking.getNumberOfSeats()).multiply(booking.getMovie().getPrice()))
                 .movieDto(MovieMapper.movieToMovieDto(booking.getMovie()))
                 .bookedAt(booking.getBookedAt())

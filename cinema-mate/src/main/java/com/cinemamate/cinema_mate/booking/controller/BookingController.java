@@ -36,7 +36,7 @@ public class BookingController {
     }
 
     @PreAuthorize("hasAuthority('CINEMA')")
-    @GetMapping("/verify")
+    @PostMapping("/verify")
     public ResponseEntity<BookingCinemaDto> verify(@Valid @RequestBody VerificationDto verificationDto,Principal principal){
         String cinemaName = principal.getName();
         return ResponseEntity.ok(bookingService.verifyCode(verificationDto,cinemaName));

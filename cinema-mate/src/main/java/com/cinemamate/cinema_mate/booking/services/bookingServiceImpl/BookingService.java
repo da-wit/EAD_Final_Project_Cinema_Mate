@@ -20,9 +20,12 @@ import com.cinemamate.cinema_mate.movie.services.IMovieService;
 import com.cinemamate.cinema_mate.user.entity.User;
 import com.cinemamate.cinema_mate.user.exceptions.UserExceptions;
 import com.cinemamate.cinema_mate.user.services.IUserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,7 @@ public class BookingService implements IBookingService {
     private final BookingRepository bookingRepository;
     private final ICinemaUserHelper cinemaUserHelper;
     private final BookingMapper bookingMapper;
+
 
     @Override
     public String bookAMovie(String userName, String movieId, long numberOfSeats) {
@@ -54,6 +58,14 @@ public class BookingService implements IBookingService {
         else if( movie.getSeats() - numberOfBookedSeats(movieId)  < numberOfSeats){
             throw BookingExceptions.insufficientSeatsAvailable();
         }
+
+        Booking alreadyBooked = bookingRepository.findBookingByMovie_IdAndUser_Id(movie.getId(),user.getId()).orElse(null);
+
+        if(alreadyBooked != null){
+
+            return updateBookedNumberOfSeats(userName,alreadyBooked.getId(),numberOfSeats);
+        }
+
 
         String code = BookingCodeGenerator.generateBookingCode();
         Booking booking = Booking.builder()
@@ -149,6 +161,29 @@ public class BookingService implements IBookingService {
     @Override
     public long numberOfBookedSeats(String movieId) {
         return cinemaUserHelper.bookedSeats(movieId);
+    }
+
+
+//    @Scheduled(cron = "0 0 0 * * ?") // Every day at midnight
+//    @Scheduled(cron = "0 0 * * * *") // Run every hour
+//    @Scheduled(cron = "0 * * * * *") // Every minute
+    @Transactional
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void cleanUpExpiredBookings() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Booking> bookings = bookingRepository.findAll();
+
+        bookings.stream()
+                .filter(booking -> isBookingExpired(booking, now))
+                .forEach(expiredBooking -> {
+                    bookingRepository.delete(expiredBooking);
+                    System.out.println("Deleted expired booking with ID: " + expiredBooking.getId());
+                });
+    }
+
+    private boolean isBookingExpired(Booking booking, LocalDateTime currentDateTime) {
+        LocalDateTime bookingDateTime = LocalDateTime.of(booking.getMovie().getViewDate(), booking.getMovie().getViewTime());
+        return bookingDateTime.isBefore(currentDateTime);
     }
 
 //    @Override
