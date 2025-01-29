@@ -1,0 +1,154 @@
+/*body{*/
+/*    height: 100vh;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    background-color: #724DF8;*/
+/*    gap: 40px;*/
+/*}*/
+body {
+    height: 100vh;
+    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
+    font-family: 'Inter', sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+.cinema-info {
+    margin-top:  100px;
+    background-color: rgba(255, 255, 255, 0.13);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.cinema-image {
+    height: 550px;
+    overflow: hidden;
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.cinema-image:hover .main-image {
+    transform: scale(1.05);
+}
+
+.info-section {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.cinema-header {
+    margin-bottom: 1rem;
+}
+
+.cinema-name {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.cinema-email {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+
+.description-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    min-height: 100px;
+    max-height: 300px;
+    overflow: hidden;
+
+}
+
+.description-box h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+/*.scrollable-content {*/
+/*    max-height: calc(300px - 2.5rem); !* Adjust based on padding and h2 height *!*/
+/*    overflow-y: auto; !* Enable vertical scrolling *!*/
+/*}*/
+
+
+/* scroller styled start */
+.scrollable-content {
+    max-height: calc(300px - 2.5rem); /* Adjust based on padding and h2 height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    scrollbar-width: thin; /* Firefox: thin scrollbar */
+    scrollbar-color: rgba(255, 255, 255, 0.5) transparent; /* Firefox: scrollbar color */
+}
+
+/* Scrollbar styling for WebKit browsers */
+.scrollable-content::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1); /* Track background */
+    border-radius: 10px; /* Rounded corners for the track */
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5); /* Thumb color */
+    border-radius: 10px; /* Rounded corners for the thumb */
+    border: 2px solid transparent; /* Adds space around the thumb */
+    background-clip: padding-box; /* Prevent border overlapping */
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.8); /* Thumb color on hover */
+}
+
+/* scroller styled end */
+
+
+.description-box p {
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .navbar {
+        padding: 1rem;
+    }
+
+    .cinema-info {
+        grid-template-columns: 1fr;
+    }
+
+    .cinema-image {
+        height: 300px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .info-section {
+        padding: 1.5rem;
+    }
+
+    .cinema-name {
+        font-size: 2rem;
+    }
+}
