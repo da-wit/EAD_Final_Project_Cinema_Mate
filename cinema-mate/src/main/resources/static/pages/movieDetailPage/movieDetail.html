@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Mate</title>
+    <link rel="stylesheet" href="movieDetail.css">
+    <link rel="stylesheet" href="../navBar/navbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body class="body" id="body">
+<!--<div class="nav-container">-->
+<div><nav class="navbar">
+    <!--    -->
+    <ul class="navbar-menu">
+        <li><a href="../userHomePage/userHome.html" class="nav-link active">Home</a></li>
+        <li><a href="../cinemaListPage/cinemaList.html" class="nav-link">Cinema List</a></li>
+        <li><a href="../reservePage/reserve.html" class="nav-link">Booked</a></li>
+        <li><a href="../watchListPage/watchList.html" class="nav-link">Watch List</a></li>
+        <li><a href="../userProfilePage/userProfile.html" class="nav-link"><i class="fa-solid fa-user"></i></a></li>
+    </ul>
+    <div class="search-container">
+    </div>
+    <!--    </div>-->
+</nav>
+</div>
+<!--</div>-->
+
+    <div class="movie-detail" id="movie-detail">
+
+    </div>
+    <div class="modal" id="reservationModal">
+        <div class="modal-content">
+            <h2>Reserve Seats</h2>
+            <form id="reservationForm">
+                <div class="form-group">
+                    <label for="seats">Number of Seats</label>
+                    <input type="number" id="seats" min="0" value="0" required>
+                    <span id="error">Number exceeds available seats!</span>
+                    <p class="seats-info" id="seats-info"></p>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-for-reserve cancel-btn">Cancel</button>
+                    <button type="submit" class="btn-for-reserve confirm-btn">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<script src="movieDetail.js"></script>
+</body>
+</html>
+
+<!--<div class="movie-content">-->
+<!--    <div class="movie-poster">-->
+<!--        <img src="../loginPage/2827349.jpg" alt="Movie Poster" class="poster-image">-->
+<!--        <div class="movie-description">-->
+<!--            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim m d m dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minimolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minimm dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim m dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim m dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="movie-info">-->
+<!--        <div class="info-card">-->
+<!--            <div class="info-item">-->
+<!--                <h2>Title</h2>-->
+<!--                <p>Dead Pool</p>-->
+<!--            </div>-->
+<!--            <div class="info-item">-->
+<!--                <h2>Genre</h2>-->
+<!--                <p>Action, Fantasy, War</p>-->
+<!--            </div>-->
+<!--            <div class="time-info">-->
+<!--                <div class="info-item">-->
+<!--                    <h2>Show Time</h2>-->
+<!--                    <p>09:00 AM</p>-->
+<!--                </div>-->
+<!--                <div class="info-item">-->
+<!--                    <h2>Show Date</h2>-->
+<!--                    <p>01/02/25</p>-->
+<!--                </div>-->
+<!--                <div class="info-item">-->
+<!--                    <h2>Duration</h2>-->
+<!--                    <p>02:30</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="info-item seats">-->
+<!--                <div>-->
+<!--                    <h2>Total Seats</h2>-->
+<!--                    <p>100</p>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <h2>Available Seats</h2>-->
+<!--                    <p>20</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="action-buttons">-->
+<!--            <button class="btn watchlist-btn">Add to Watch List</button>-->
+<!--            <button class="btn reserve-btn">Reserve</button>-->
+<!--        </div>-->
+<!--        <div class="detail-button">-->
+<!--            <button class="btn detail-btn">Cinema Detail</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
