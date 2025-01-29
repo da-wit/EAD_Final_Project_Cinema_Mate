@@ -13,6 +13,7 @@ public class CinemaMapper {
                 .cinemaName(cinema.getCinemaName())
                 .email(cinema.getEmail())
                 .description(cinema.getDescription())
+                .imagePath(cinema.getProfileImage())
                 .isActive(cinema.isActive())
                 .role(cinema.getRole())
                 .build();
@@ -23,6 +24,7 @@ public class CinemaMapper {
                 .cinemaName(cinema.getCinemaName())
                 .email(cinema.getEmail())
                 .description(cinema.getDescription())
+                .imagePath(cinema.getProfileImage())
                 .build();
     }
 

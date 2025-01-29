@@ -1,5 +1,6 @@
 package com.cinemamate.cinema_mate.cinema.services.cinemaServiceImpl;
 
+import com.cinemamate.cinema_mate.cinema.dto.BasicCinemaDto;
 import com.cinemamate.cinema_mate.cinema.dto.CinemaDto;
 import com.cinemamate.cinema_mate.cinema.dto.UpdateCinemaDto;
 import com.cinemamate.cinema_mate.cinema.dto.UpdatePasswordDto;
@@ -14,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -106,6 +110,18 @@ public class CinemaService implements ICinemaService {
         cinema.setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
         cinemaRepository.save(cinema);
         return "password updated successfully";
+    }
+
+    @Override
+    public List<CinemaDto> getAllCinema() {
+        List<Cinema> cinemas = cinemaRepository.findAll();
+        return cinemas.stream().map(cinemaMapper::cinemaToCinemaDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public BasicCinemaDto getCinemaDetailById(String id) {
+        Cinema cinema =cinemaRepository.findCinemaById(id).orElseThrow(()->CinemaExceptions.notFound(id));
+        return cinemaMapper.cinemaToBasicCinemaDto(cinema);
     }
 
 
