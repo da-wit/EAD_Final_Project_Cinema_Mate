@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class MovieMapper {
@@ -32,7 +34,11 @@ public class MovieMapper {
                 .build();
     }
 
-    public  MovieDetailDto movieToMovieDetailDto(Movie movie){
+    public MovieDetailDto movieToMovieDetailDto(Movie movie) {
+        return movieToMovieDetailDto(movie, false,null); // Call the main method with Optional.empty()
+    }
+
+    public  MovieDetailDto movieToMovieDetailDto(Movie movie, boolean alreadyBooked,String alreadyInTheWatchList){
         BasicCinemaDto basicCinemaDto = cinemaMapper.cinemaToBasicCinemaDto(movie.getCinema());
         long bookedSeats = cinemaUserHelper.bookedSeats(movie.getId());
         return MovieDetailDto.builder()
@@ -48,6 +54,8 @@ public class MovieMapper {
                 .genres(movie.getGenres())
                 .imagePath(movie.getImagePath())
                 .isActive(movie.isActive())
+                .alreadyBooked(alreadyBooked)
+                .alreadyInTheWatchList(alreadyInTheWatchList)
                 .cinema(basicCinemaDto)
                 .build();
     }

@@ -23,27 +23,34 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping
-    public ResponseEntity<List<MovieDto>> getAllMovies(){
-        return ResponseEntity.ok(movieService.getAllMovies());
+    public ResponseEntity<List<MovieDto>> getAllMovies(@RequestParam(value = "search", required = false) String search)
+    {
+        return ResponseEntity.ok(movieService.getAllMovies(search));
     }
     @PreAuthorize("hasAuthority('CINEMA')")
-    @GetMapping("/datepassed")
+    @GetMapping("/datePassed")
     public ResponseEntity<List<MovieDto>> getAllDatePassedMovies(){
         return ResponseEntity.ok(movieService.getAllDatePassedMovies());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<MovieDetailDto> getMovieById(@PathVariable("id") String movieId){
-        return ResponseEntity.ok(movieService.getMovieById(movieId));
+    public ResponseEntity<MovieDetailDto> getMovieById(@PathVariable("id") String movieId,Principal principal){
+        return ResponseEntity.ok(movieService.getMovieById(movieId,principal.getName()));
     }
+
+    @GetMapping("/detail/cinema/{id}")
+    public ResponseEntity<MovieDetailDto> getMovieByIdForCinema(@PathVariable("id") String movieId,Principal principal){
+        return ResponseEntity.ok(movieService.getMovieByIdForCinema(movieId,principal.getName()));
+    }
+
     @GetMapping("/cinema/{id}")
     public  ResponseEntity<List<MovieDto>> getMoviesByCinemaId(@PathVariable("id") String cinemaId){
         return ResponseEntity.ok(movieService.getMoviesByCinemaId(cinemaId));
     }
     @PreAuthorize("hasAuthority('CINEMA')")
     @GetMapping("/cinema")
-    public  ResponseEntity<List<MovieDto>> getMoviesByCinema(Principal principal){
+    public  ResponseEntity<List<MovieDto>> getMoviesByCinema(Principal principal,@RequestParam(value = "search", required = false) String search){
         String cinemaName = principal.getName();
-        return ResponseEntity.ok(movieService.getMoviesByCinema(cinemaName));
+        return ResponseEntity.ok(movieService.getMoviesByCinema(cinemaName,search));
     }
 
     @PreAuthorize("hasAuthority('CINEMA')")
@@ -57,7 +64,7 @@ public class MovieController {
 
     @PreAuthorize("hasAuthority('CINEMA')")
     @PutMapping("/{id}")
-    public ResponseEntity<MovieDto> updateMovie (@RequestPart("updateMovieDto") @Valid UpdateMovieDto updateMovieDto, @RequestPart("image") MultipartFile imageFile,Principal principal,@PathVariable("id") String movieId){
+    public ResponseEntity<MovieDto> updateMovie (@RequestPart("updateMovieDto") @Valid UpdateMovieDto updateMovieDto, @RequestPart(value = "image", required = false) MultipartFile imageFile,Principal principal,@PathVariable("id") String movieId){
         String cinemaName = principal.getName();
         return ResponseEntity.ok(movieService.updateMovie(updateMovieDto,imageFile,movieId,cinemaName));
     }
@@ -72,26 +79,7 @@ public class MovieController {
 
 
 
-//@PostMapping
-//public ResponseEntity<String> createMovie(
-//        @RequestPart("createMovieDto")  String createMovieDto,
-//        @RequestPart("image") MultipartFile imageFile){
-//    System.out.println(createMovieDto);
-//    return new ResponseEntity<>(createMovieDto, HttpStatus.CREATED);
-//}
-//    @GetMapping
-//    public ResponseEntity<String> getMovie(
-//           ){
-//        return new ResponseEntity<>("lldlfdf", HttpStatus.CREATED);
-//    }
 
-//    @PreAuthorize("hasAuthority('CINEMA')")
-//    @GetMapping
-//    public ResponseEntity<String> b (Principal principal){
-//        System.out.println("bbbb");
-//        System.out.println(principal);
-//        return ResponseEntity.ok(principal.getName().toString());
-//    }
 
 
 }

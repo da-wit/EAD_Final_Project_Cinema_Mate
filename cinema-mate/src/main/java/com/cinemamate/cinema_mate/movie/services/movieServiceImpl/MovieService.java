@@ -14,6 +14,8 @@ import com.cinemamate.cinema_mate.movie.exceptions.MovieExceptions;
 import com.cinemamate.cinema_mate.movie.mapper.MovieMapper;
 import com.cinemamate.cinema_mate.movie.repository.MovieRepository;
 import com.cinemamate.cinema_mate.movie.services.IMovieService;
+import com.cinemamate.cinema_mate.user.entity.User;
+import com.cinemamate.cinema_mate.user.services.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -21,7 +23,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,6 +38,7 @@ public class MovieService implements IMovieService {
     private final MovieRepository movieRepository;
     private final IFileService fileService;
     private final ICinemaService cinemaService;
+    private final IUserService userService;
     private final ICinemaUserHelper cinemaUserHelper;
     private final MovieMapper movieMapper;
 
@@ -74,19 +79,26 @@ public class MovieService implements IMovieService {
         if (cinema == null){
             throw  CinemaExceptions.cinemaNameNotFound(cinemaName);
         }
-        System.out.println("inside update movie");
-        System.out.println(movieId);
-        System.out.println(UUID.fromString(movieId));
+//        System.out.println("inside update movie");
+//        System.out.println(movieId);
+//        System.out.println(UUID.fromString(movieId));
         Movie movie = movieRepository.findMovieById(movieId).orElseThrow(()-> MovieExceptions.movieNotFound(movieId));
-        fileService.deleteImage(movie.getImagePath());
-        String savedImagePath = fileService.saveImage(imageFile);
+        String savedImagePath ;
+        if(imageFile != null){
+            fileService.deleteImage(movie.getImagePath());
+            savedImagePath = fileService.saveImage(imageFile);
+        }else{
+            savedImagePath = movie.getImagePath();
+        }
         movie.setTitle(updateMovieDto.getTitle());
         movie.setDescription(updateMovieDto.getDescription());
         movie.setDuration(updateMovieDto.getDuration());
         movie.setViewTime(updateMovieDto.getViewTime());
         movie.setViewDate(updateMovieDto.getViewDate());
         movie.setSeats(updateMovieDto.getSeats());
+        movie.setGenres(updateMovieDto.getGenres());
         movie.setImagePath(savedImagePath);
+        movie.setActive(true);
 
         movieRepository.save(movie);
 
@@ -107,8 +119,13 @@ public class MovieService implements IMovieService {
 
     // view get all movies that are active so the user can access them
     @Override
-    public List<MovieDto> getAllMovies() {
-        List<Movie> movies = movieRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt"));
+    public List<MovieDto> getAllMovies(String search) {
+        List<Movie> movies;
+        if(search != null){
+            movies =movieRepository.findByTitleContainingIgnoreCase(search, Sort.by(Sort.Direction.DESC, "createdAt"));
+        }else{
+        movies = movieRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt"));
+        }
         return movies.stream()
                 .filter(Movie::isActive)
                 .map(movieMapper::movieToMovieDto).collect(Collectors.toList());
@@ -123,10 +140,23 @@ public class MovieService implements IMovieService {
 
 
     @Override
-    public MovieDetailDto getMovieById(String movieId) {
+    public MovieDetailDto getMovieById(String movieId,String userName) {
+        User user = userService.getUser(userName);
         Movie movie = movieRepository.findMovieById(movieId).orElseThrow(() -> MovieExceptions.movieNotFound(movieId));
         long numberOfBookedSeats = cinemaUserHelper.bookedSeats(movie.getId());
-        return movieMapper.movieToMovieDetailDto(movie);
+        boolean isAlreadyBooked = cinemaUserHelper.isBookedByUser(movie.getId(),user.getId());
+        String isAlreadyInTheWatchList = cinemaUserHelper.watchListId(movie.getId(),user.getId());
+        return movieMapper.movieToMovieDetailDto(movie,isAlreadyBooked,isAlreadyInTheWatchList);
+    }
+
+    @Override
+    public MovieDetailDto getMovieByIdForCinema(String movieId, String cinemaName) {
+        Cinema cinema = cinemaService.getCinema(cinemaName);
+        Movie movie = movieRepository.findMovieById(movieId).orElseThrow(() -> MovieExceptions.movieNotFound(movieId));
+        long numberOfBookedSeats = cinemaUserHelper.bookedSeats(movie.getId());
+        boolean isAlreadyBooked = cinemaUserHelper.isBookedByUser(movie.getId(),cinema.getId());
+        String isAlreadyInTheWatchList = cinemaUserHelper.watchListId(movie.getId(),cinema.getId());
+        return movieMapper.movieToMovieDetailDto(movie,isAlreadyBooked,isAlreadyInTheWatchList);
     }
 
     @Override
@@ -134,17 +164,34 @@ public class MovieService implements IMovieService {
         Cinema cinema = cinemaService.getCinemaById(cinemaId);
         List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
 
-        return movies.stream().map(movieMapper::movieToMovieDto).collect(Collectors.toList());
+        return movies.stream().filter(Movie::isActive).map(movieMapper::movieToMovieDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<MovieDto> getMoviesByCinema(String cinemaName) {
+    public List<MovieDto> getMoviesByCinema(String cinemaName,String search) {
+//        Cinema cinema = cinemaService.getCinema(cinemaName);
+//        if(cinema == null){
+//            throw CinemaExceptions.cinemaNameNotFound(cinemaName);
+//        }
+//        List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
+//        return  movies.stream()
+//                .filter(movie -> search == null || search.isEmpty() ||
+//                        movie.getTitle().toLowerCase().contains(search.toLowerCase())) // Case-insensitive search
+//                .map(movieMapper::movieToMovieDto)
+//                .collect(Collectors.toList());
         Cinema cinema = cinemaService.getCinema(cinemaName);
-        if(cinema == null){
+        if (cinema == null) {
             throw CinemaExceptions.cinemaNameNotFound(cinemaName);
         }
+
         List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
-        return movies.stream().map(movieMapper::movieToMovieDto).collect(Collectors.toList());
+
+        return movies.stream().filter(Movie::isActive)
+                .filter(movie -> search == null || search.isEmpty() ||
+                        movie.getTitle().toLowerCase().contains(search.toLowerCase())) // Case-insensitive search
+                .sorted(Comparator.comparing(Movie::getViewDate)) // Sort by view date in ascending order
+                .map(movieMapper::movieToMovieDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -154,8 +201,8 @@ public class MovieService implements IMovieService {
     }
 
 
-    @Scheduled(cron = "0 0 0 * * *") // Runs daily at midnight
-//    @Scheduled(cron = "0 0/2 * * * *")
+//    @Scheduled(cron = "0 0 0 * * *") // Runs daily at midnight
+    @Scheduled(cron = "0 0/1 * * * *")
     public void deactivatePastMovies() {
         LocalDate today = LocalDate.now();
 

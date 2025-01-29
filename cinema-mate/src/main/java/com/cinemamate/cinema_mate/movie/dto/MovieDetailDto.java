@@ -25,6 +25,8 @@ public class MovieDetailDto {
     private List<String> genres;
     private String imagePath;
     private boolean isActive;
+    private boolean alreadyBooked;
+    private String alreadyInTheWatchList;
     private BasicCinemaDto cinema;
 }
 
