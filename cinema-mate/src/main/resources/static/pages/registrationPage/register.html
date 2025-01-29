@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinema Mate</title>
+  <link rel="stylesheet" href="register.css">
+  <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="logo">Cinema Mate</h1>
+
+  <div class="card">
+    <div class="tab-group">
+      <button class="tab-btn user active" data-type="user">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        User
+      </button>
+      <button class="tab-btn cinema" data-type="cinema">
+        <i class="fa-solid fa-film"></i>
+        Cinema
+      </button>
+    </div>
+
+    <form id="registrationForm" class="registration-form">
+      <input type="text" id="nameInput" placeholder="Username" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      <textarea id="descriptionInput" class="scrollable-content"  placeholder="Description" style="display: none;"></textarea>
+      <button type="submit" class="submit-btn">Sign-up</button>
+    </form>
+    <div id="error" class="error-message"></div>
+
+    <p class="login-text">
+      Already have an account? <a href="../loginPage/login.html" class="login-link">Log-In</a>
+    </p>
+  </div>
+</div>
+<script src="register.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
