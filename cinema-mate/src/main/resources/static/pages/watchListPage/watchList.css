@@ -1,0 +1,126 @@
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
+    gap: 40px;
+}
+
+.watchlist-grid {
+    display: grid;
+    /*grid-template-columns: 1fr 1fr 1fr 1fr;*/
+    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
+    /*display: flex;*/
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.movie-card {
+    background: rgba(20, 14, 40, 0.6);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-poster {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.poster-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(239, 68, 68, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.movie-card:hover .remove-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.remove-btn:hover {
+    background: rgb(239, 68, 68);
+    transform: scale(1.1) !important;
+}
+
+.movie-info {
+    padding: 1rem;
+}
+
+.movie-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.movie-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.no-movie{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 60px;
+    color: white;
+    /*background-color: rgba(0, 0, 0, 0.6); !* Optional: Dim the background *!*/
+    z-index: 10; /* Ensure it appears above other elements */
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .watchlist-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .remove-btn {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
