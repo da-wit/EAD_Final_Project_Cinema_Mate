@@ -40,7 +40,7 @@ public class Cinema extends AuditableEntity implements CustomUserDetails {
     private String password;
 
     @Setter
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false,length = 10000)
     private String description;
 
     @Setter

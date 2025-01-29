@@ -1,0 +1,364 @@
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
+    gap: 50px;
+}
+.booked-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 10px 20px 0 20px;
+}
+.movie-info {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    background: rgba(222, 222, 222, 0.34);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    /*padding: 0.5rem;*/
+    padding-left: 20px;
+    margin: 20px 40px 0 40px;
+    transition: transform 0.3s ease;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-poster {
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.card-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    padding:20px;
+}
+.info-item {
+    background: rgba(255, 255, 255, 0.1);
+    /*padding: 5px;*/
+    margin: 10px;
+    border-radius: 0.5rem;
+    width: 100%;
+    text-align: center;
+    /*border: 1px solid red;*/
+}
+.info-item h2 {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    /*margin-bottom: 0.25rem;*/
+}
+
+.info-item p {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: white;
+}
+
+.ticket{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    grid-column: span 3;
+}
+
+.label {
+    color: #000;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.value {
+    font-size: 0.9rem;
+    color: white;
+}
+
+.booking-id {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    color: black;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.update-btn {
+    background: #7c3aed;
+    color: white;
+}
+
+.update-btn:hover {
+    background: #6d28d9;
+}
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
+/*!* Modal Styles *!*/
+/*.modal {*/
+/*    display: none;*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background: rgba(0, 0, 0, 0.5);*/
+/*    backdrop-filter: blur(5px);*/
+/*    z-index: 1000;*/
+/*    opacity: 0;*/
+/*    transition: opacity 0.3s ease;*/
+/*}*/
+
+/*.modal.active {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    opacity: 1;*/
+/*}*/
+
+/*.modal-content {*/
+/*    background: rgba(20, 14, 40, 0.95);*/
+/*    backdrop-filter: blur(10px);*/
+/*    padding: 2rem;*/
+/*    border-radius: 1rem;*/
+/*    width: 90%;*/
+/*    max-width: 400px;*/
+/*    transform: scale(0.9);*/
+/*    transition: transform 0.3s ease;*/
+/*}*/
+
+/*.modal.active .modal-content {*/
+/*    transform: scale(1);*/
+/*}*/
+
+/*.modal h2 {*/
+/*    font-size: 1.5rem;*/
+/*    margin-bottom: 1.5rem;*/
+/*}*/
+
+/*.form-group {*/
+/*    margin-bottom: 1.5rem;*/
+/*}*/
+
+/*.form-group label {*/
+/*    display: block;*/
+/*    margin-bottom: 0.5rem;*/
+/*}*/
+
+/*.form-group input {*/
+/*    width: 100%;*/
+/*    padding: 0.75rem;*/
+/*    background: rgba(255, 255, 255, 0.1);*/
+/*    border: 1px solid rgba(255, 255, 255, 0.2);*/
+/*    border-radius: 0.5rem;*/
+/*    color: white;*/
+/*    font-size: 1rem;*/
+/*}*/
+
+/*.seats-info {*/
+/*    margin-top: 0.5rem;*/
+/*    font-size: 0.875rem;*/
+/*    color: rgba(255, 255, 255, 0.6);*/
+/*}*/
+
+/*.modal-buttons {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 1fr;*/
+/*    gap: 1rem;*/
+/*}*/
+
+/*.cancel-btn {*/
+/*    background: rgba(255, 255, 255, 0.1);*/
+/*    color: white;*/
+/*}*/
+
+/*.cancel-btn:hover {*/
+/*    background: rgba(255, 255, 255, 0.2);*/
+/*}*/
+
+/*.confirm-btn {*/
+/*    background: #7c3aed;*/
+/*    color: white;*/
+/*}*/
+
+/*.confirm-btn:hover {*/
+/*    background: #6d28d9;*/
+/*}*/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*background: rgba(114, 77, 248, 0.8); !* Use a similar purple overlay *!*/
+    z-index: 1000; /* Ensure it stays on top */
+    justify-content: center;
+    align-items: center;
+    /*backdrop-filter: blur(20px); !* Match backdrop effect *!*/
+}
+
+/* Modal content */
+.modal-content {
+    background: #724DF8; /* Semi-transparent background */
+    border-radius: 1rem;
+    padding: 2rem;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Modal heading */
+.modal-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+/* Input field */
+#seats {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: background 0.3s ease;
+}
+
+#seats:focus {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Seats info text */
+.seats-info {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.5rem;
+}
+
+/* Modal buttons */
+.modal-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.modal-buttons .btn-for-reserve {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.cancel-btn {
+    background: white; /* Red button for cancel */
+    color: black;
+    border: none;
+}
+
+.cancel-btn:hover {
+    background: #e53935;
+}
+
+.confirm-btn {
+    border: none;
+    /*background: #5f39e8; !* Green button for confirm *!*/
+    color: black;
+    background: white;
+}
+
+.confirm-btn:hover {
+    background: #7c3aed;
+}
+
+/* Show the modal when active */
+.modal.active {
+    display: flex; /* Flex to center content */
+}
+.no-movie{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 60px;
+    color: white;
+    /*background-color: rgba(0, 0, 0, 0.6); !* Optional: Dim the background *!*/
+    z-index: 10; /* Ensure it appears above other elements */
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .movie-info {
+        flex-direction: column;
+    }
+
+    .movie-poster {
+        width: 100%;
+        height: 200px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+}

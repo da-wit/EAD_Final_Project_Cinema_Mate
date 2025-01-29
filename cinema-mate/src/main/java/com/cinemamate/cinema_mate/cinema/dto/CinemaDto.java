@@ -11,6 +11,7 @@ public class CinemaDto {
     private String cinemaName;
     private String email;
     private String description;
+    private String imagePath;
     private boolean isActive;
     private Role role;
 }

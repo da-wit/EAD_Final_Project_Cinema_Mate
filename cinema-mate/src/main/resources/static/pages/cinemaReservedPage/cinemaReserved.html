@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema Mate</title>
+    <link rel="stylesheet" href="cinemaReserved.css">
+    <link rel="stylesheet" href="../navBar/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<div>
+    <nav class="navbar">
+        <!--    -->
+        <ul class="navbar-menu">
+            <li><a href="../cinemaHomePage/cinemaHome.html" class="nav-link">Home</a></li>
+            <li><a href="../datePassedMoviesPage/datePassedMovies.html" class="nav-link">DatePassed Movies</a></li>
+            <li><a href="cinemaReserved.html" class="nav-link active">Reserved</a></li>
+            <li><a href="../cinemaProfilePage/cinemaProfile.html" class="nav-link"><i class="fa-solid fa-user"></i></a></li>
+        </ul>
+        <!--    </div>-->
+    </nav>
+</div>
+<div class="container">
+    <div class="reservations" id="reservationsList">
+        <!-- Reservations will be populated here -->
+
+    </div>
+    <button class="verify-button" id="verify-button">Verify</button>
+</div>
+<div class="modal" id="verify-modal">
+    <div class="modal-content">
+        <div class="verify-header">
+            <div><h2>Verify Movie Reservation</h2></div>
+            <div>
+                <span class="close-button" id="close-button">&times;</span>
+            </div>
+        </div>
+        <form id="verify-user-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter the username" required />
+
+            <label for="booking-code">Booking Code</label>
+            <input type="text" id="booking-code" name="booking-code" placeholder="Enter the booking code" required />
+            <button type="submit" class="submit-button">Verify</button>
+        </form>
+    </div>
+</div>
+<div class="verification-display-modal" id="verification-display-modal">
+
+</div>
+
+<script src ="cinemaReserved.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.cinemamate.cinema_mate.core.exceptions;
 
 import com.cinemamate.cinema_mate.auth.exceptions.AuthExceptions;
+import com.cinemamate.cinema_mate.booking.exceptions.BookingExceptions;
 import com.cinemamate.cinema_mate.cinema.exceptions.CinemaExceptions;
 import com.cinemamate.cinema_mate.core.entity.ErrorDetail;
 import com.cinemamate.cinema_mate.movie.exceptions.MovieExceptions;
@@ -64,6 +65,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(WatchListExceptions.class)
     public ResponseEntity<ErrorDetail> watchListExceptionHandler(WatchListExceptions e,WebRequest webRequest){
+        ErrorDetail errorDetail = ErrorDetail.builder()
+                .message(e.getMessage())
+                .details(webRequest.getDescription(false))
+                .timestamp(new Date())
+                .build();
+        return  new ResponseEntity<>(errorDetail,e.getHttpStatus());
+    }
+
+    @ExceptionHandler(BookingExceptions.class)
+    public ResponseEntity<ErrorDetail> bookingExceptionHandler(BookingExceptions e,WebRequest webRequest){
         ErrorDetail errorDetail = ErrorDetail.builder()
                 .message(e.getMessage())
                 .details(webRequest.getDescription(false))

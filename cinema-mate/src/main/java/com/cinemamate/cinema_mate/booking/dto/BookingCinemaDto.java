@@ -12,6 +12,7 @@ public class BookingCinemaDto {
     private String id;
     private String userName;
     private String imagePath;
+    private long bookedSeats;
     private BigDecimal totalPrice;
     private LocalTime bookedAt;
     private MovieDto movieDto;

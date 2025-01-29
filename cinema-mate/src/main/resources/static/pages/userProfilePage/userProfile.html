@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema Mate</title>
+    <link rel="stylesheet" href="userProfile.css">
+    <link rel="stylesheet" href="../navBar/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<div>
+    <nav class="navbar">
+        <!--    -->
+        <ul class="navbar-menu">
+            <li><a href="../userHomePage/userHome.html" class="nav-link">Home</a></li>
+            <li><a href="../cinemaListPage/cinemaList.html" class="nav-link">Cinema List</a></li>
+            <li><a href="../reservePage/reserve.html" class="nav-link">Booked</a></li>
+            <li><a href="../watchListPage/watchList.html" class="nav-link">Watch List</a></li>
+            <li><a href="userProfile.html" class="nav-link active"><i class="fa-solid fa-user active"></i></a></li>
+            <li class="search">
+                <form method="GET" class="search-form">
+                    <input type="text" name="query" placeholder="Search movies..." class="search-input" />
+                    <button type="submit" class="search-button"><i class="fa-solid fa-search"></i></button>
+                </form>
+            </li>
+        </ul>
+        <!--    </div>-->
+    </nav>
+</div>
+<!--<div class="container">-->
+<!--    <div class="profile-header"></div>-->
+    <div class="profile-content" id="profile-content">
+    </div>
+<!--</div>-->
+<div id="editMode" class="edit-modal">
+    <div class="edit-modal-content">
+        <div class="modal-header">
+            <h2>Edit Profile</h2>
+        </div>
+        <form id="profileForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" value="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="john.doe@example.com" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn edit-btn-save">Save Changes</button>
+                <button type="button" class="btn edit-btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Password Change Modal -->
+<div id="passwordModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Change Password</h2>
+        </div>
+        <form id="passwordForm">
+            <div class="form-group">
+                <label for="oldPassword">Current Password</label>
+                <input type="password" id="oldPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-save">Update Password</button>
+                <button type="button"  class="btn btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src ="userProfile.js"></script>
+</body>
+</html>

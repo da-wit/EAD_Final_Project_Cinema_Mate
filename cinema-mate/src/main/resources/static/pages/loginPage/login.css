@@ -1,0 +1,110 @@
+body{
+    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+.left-side {
+    width: 70%;
+    display: flex;
+    background-image: url('2827349.jpg'); /* Background image */
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+    font-family: 'Mountains of Christmas', cursive;
+    color: white;
+    position: relative;
+    z-index: 1000;
+}
+
+.left-side::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: rgba(76, 29, 149, 0.7); /* Semi-transparent overlay */
+    z-index: -1; /* Place the overlay behind the content */
+}
+.login-container h1{
+    margin: 0;
+    font-size: 50px;
+    color: white;
+    font-family: 'Playfair Display', serif;
+}
+.login-container span{
+    font-size: 15px;
+    margin-bottom: 3rem;
+    font-family: Arial;
+    letter-spacing: 2px;
+}
+.login-container form{
+    width: 70%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+.login-container label {
+    margin-bottom: 0.5rem;
+}
+
+.login-container input:focus{
+    outline: none;
+    border: 3px solid #724DF8;
+}
+.login-container button{
+    margin-top: 1rem;
+    padding: 10px;
+    background-color: #724DF8;
+    border: none ;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 20px;
+    color: white;
+    transition: padding 0.3s ease-in;
+    box-shadow: black 5px 5px 5px ;
+}
+
+.login-container button:hover{
+    padding: 15px;
+}
+
+a{
+    color: #a78bfa;
+    text-decoration: none;
+}
+a:hover {
+    color: #c4b5fd;
+}
+
+input {
+
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1rem;
+    margin: 20px 0;
+}
+
+input:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+}
+
+input::placeholder {
+    color:white;
+}
+
+
+.error-message {
+    font-family: Arial;
+    color: red;
+    margin: 20px 0;
+}

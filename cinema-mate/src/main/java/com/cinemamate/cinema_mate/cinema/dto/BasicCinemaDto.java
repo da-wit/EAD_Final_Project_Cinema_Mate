@@ -10,4 +10,5 @@ public class BasicCinemaDto {
     private String cinemaName;
     private String email;
     private String description;
+    private String imagePath;
 }

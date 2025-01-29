@@ -1,0 +1,326 @@
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
+    gap: 40px;
+}
+
+.date-passed-grid {
+    display: grid;
+    /*grid-template-columns: 1fr 1fr 1fr 1fr;*/
+    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
+    /*display: flex;*/
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.movie-card {
+    background: rgba(20, 14, 40, 0.6);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-poster {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.poster-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(239, 68, 68, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.edit-btn {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: greenyellow;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.movie-card:hover .remove-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+.movie-card:hover .edit-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+.remove-btn:hover {
+    background: rgb(239, 68, 68);
+    transform: scale(1.1) !important;
+}
+
+.movie-info {
+    padding: 1rem;
+}
+
+.movie-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.movie-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.no-movie{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 60px;
+    color: white;
+    /*background-color: rgba(0, 0, 0, 0.6); !* Optional: Dim the background *!*/
+    z-index: 10; /* Ensure it appears above other elements */
+    text-align: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+
+}
+
+.modal-content {
+    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
+    padding: 20px;
+    border-radius: 10px;
+    width: 600px;
+    height: 75%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.close-button {
+    float: right;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 20px;
+    color: white;
+}
+
+.close-button:hover {
+    color: red;
+}
+
+.add-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*justify-content: space-between;*/
+    width: 100%;
+    font-family: Arial;
+
+}
+.add-header h2{
+    color: white;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    justify-content: center;
+}
+
+form label {
+    margin-top: 10px;
+
+}
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: white;
+    font-family: Arial;
+
+}
+
+input{
+    height: 20px;
+}
+input, textarea {
+    /*width: 80%;*/
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    transition: border-color 0.2s;
+
+}
+input::placeholder,
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+}
+
+
+
+.labels{
+    width: 100%;
+}
+.image-title{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+.number{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+
+
+}
+.time{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:2rem;
+}
+
+.submit-button {
+    margin-top: 15px;
+    background-color: #724DF8;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 20px;
+    width: 50%;
+    margin-left:27%;
+}
+
+.submit-button:hover {
+    background-color: rgba(114, 77, 248, 0.89);
+}
+
+
+.scrollable-content {
+    max-height: calc(300px - 2.5rem); /* Adjust based on padding and h2 height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    scrollbar-width: thin; /* Firefox: thin scrollbar */
+    scrollbar-color: rgba(255, 255, 255, 0.5) transparent; /* Firefox: scrollbar color */
+}
+
+/* Scrollbar styling for WebKit browsers */
+.scrollable-content::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1); /* Track background */
+    border-radius: 10px; /* Rounded corners for the track */
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5); /* Thumb color */
+    border-radius: 10px; /* Rounded corners for the thumb */
+    border: 2px solid transparent; /* Adds space around the thumb */
+    background-clip: padding-box; /* Prevent border overlapping */
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.8); /* Thumb color on hover */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .watchlist-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .remove-btn {
+        opacity: 1;
+        transform: scale(1);
+    }
+    .edit-btn {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

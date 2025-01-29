@@ -29,7 +29,7 @@ public class Movie extends AuditableEntity {
     @Column(name = "title",nullable = false)
     @Setter
     private String title;
-    @Column(name = "description",nullable = false,length = 1000)
+    @Column(name = "description",nullable = false,length = 10000)
     @Setter
     private String description;
     @Column(name = "duration",nullable = false)

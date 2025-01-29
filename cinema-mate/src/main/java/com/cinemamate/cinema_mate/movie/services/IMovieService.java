@@ -14,12 +14,13 @@ public interface IMovieService {
     MovieDto createMovie(CreateMovieDto createMovieDto, MultipartFile imageFile,String cinemaName);
     MovieDto updateMovie(UpdateMovieDto updateMovieDto, MultipartFile imageFile, String movieId, String cinemaName);
     String deleteMovieById(String movieId,String cinemaName);
-    List<MovieDto> getAllMovies();
+    List<MovieDto> getAllMovies(String search);
     List<MovieDto> getAllDatePassedMovies();
-    MovieDetailDto getMovieById(String movieId);
+    MovieDetailDto getMovieById(String movieId,String userName);
+    MovieDetailDto getMovieByIdForCinema(String movieId,String cinemaName);
     List<MovieDto> getMoviesByCinemaId(String cinemaId);
     // this returns the movies of the currently logged in cinema
-    List<MovieDto> getMoviesByCinema(String cinemaName);
+    List<MovieDto> getMoviesByCinema(String cinemaName,String search);
 
     long getTotalMovieSeats(String movieId);
 }

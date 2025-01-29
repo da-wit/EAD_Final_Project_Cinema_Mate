@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema Mate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="datePassedMovies.css">
+    <link rel="stylesheet" href="../navBar/navbar.css">
+</head>
+<body>
+<div><nav class="navbar">
+    <!--    -->
+    <ul class="navbar-menu">
+        <li><a href="../cinemaHomePage/cinemaHome.html" class="nav-link">Home</a></li>
+        <li><a href="datePassedMovies.html" class="nav-link active">DatePassed Movies</a></li>
+        <li><a href="../cinemaReservedPage/cinemaReserved.html" class="nav-link">Reserved</a></li>
+        <li><a href="../cinemaProfilePage/cinemaProfile.html" class="nav-link"><i class="fa-solid fa-user"></i></a></li>
+
+    </ul>
+    <!--    </div>-->
+</nav>
+</div>
+<div class="date-passed-grid"></div>
+
+<div class="modal" id="add-modal">
+    <div class="modal-content">
+        <div class="add-header">
+            <div><h2>Edit Movie</h2></div>
+            <div> <span class="close-button" id="close-button">&times;</span></div>
+
+        </div>
+        <form id="add-movie-form">
+            <div class="image-title">
+                <div class="labels"> <label for="movie-image">Image</label>
+                    <input type="file" id="movie-image" name="movieImage" accept="image/*" />
+                </div>
+                <div class="labels"> <label for="movie-title">Title</label>
+                    <input type="text" id="movie-title" name="title" placeholder="Enter movie title" required />
+                </div>
+            </div>
+
+
+            <div> <label for="movie-genres">Genres</label>
+                <input type="text" id="movie-genres" name="genres" placeholder="Enter movie genres" required />
+
+
+                <label for="movie-description">Description</label>
+                <textarea id="movie-description" class="scrollable-content" name="description" placeholder="Enter movie description" required></textarea></div>
+
+            <div class="time">
+                <div class="labels">
+                    <label for="movie-duration">Duration (minutes)</label>
+                    <input type="number" id="movie-duration" name="duration" min="1" placeholder="Enter duration" required />
+                </div>
+                <div class="labels">
+                    <label for="movie-view-time">View Time</label>
+                    <input type="time" id="movie-view-time" name="viewTime" required />
+                </div>
+                <div class="labels">
+                    <label for="movie-view-date">View Date</label>
+                    <input type="date" id="movie-view-date" name="viewDate" required /></div>
+            </div>
+
+            <div class="number">
+                <div class="labels">
+                    <label for="movie-total-seats">Total Seats</label>
+                    <input type="number" id="movie-total-seats" name="totalSeats" min="1" placeholder="Enter total seats" required />
+                </div>
+                <div class="labels">
+                    <label for="movie-price">Price Per Seat</label>
+                    <input type="number" id="movie-price" name="price" min="0" step="0.01" placeholder="Enter price per seat" required />
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button">Update Movie</button>
+        </form>
+    </div>
+</div>
+
+<script src ="datePassedMovies.js"></script>
+</body>
+</html>
+
+
+
+<!--<div class="movie-card">&ndash;&gt;-->
+    <!--        <div class="movie-poster">-->
+    <!--            <img src="../loginPage/2827349.jpg" alt="Guardians" class="poster-image">-->
+    <!--            <button class="remove-btn" aria-label="Remove from watchlist">-->
+    <!--                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+    <!--                    <path d="M18 6L6 18"></path>-->
+    <!--                    <path d="M6 6l12 12"></path>-->
+    <!--                </svg>-->
+    <!--            </button>-->
+    <!--        </div>-->
+    <!--        <div class="movie-info">-->
+    <!--            <h3 class="movie-title">Guardians</h3>-->
+    <!--            <div class="movie-details">-->
+    <!--                <span class="show-date">Show Date: 01/05/25</span>-->
+    <!--                <span class="show-time">Show Time: 03:40 AM</span>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>
