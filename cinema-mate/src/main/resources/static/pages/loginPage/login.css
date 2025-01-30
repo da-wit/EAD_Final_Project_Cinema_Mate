@@ -29,6 +29,14 @@ body{
     background: rgba(76, 29, 149, 0.7); /* Semi-transparent overlay */
     z-index: -1; /* Place the overlay behind the content */
 }
+.login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 30%;
+}
 .login-container h1{
     margin: 0;
     font-size: 50px;
@@ -74,7 +82,7 @@ body{
 }
 
 a{
-    color: #a78bfa;
+    color: white;
     text-decoration: none;
 }
 a:hover {

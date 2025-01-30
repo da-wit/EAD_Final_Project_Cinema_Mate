@@ -1,9 +1,12 @@
-body{
-    height: 100vh;
+body {
+    min-height: 100vh; /* Ensures the body covers the full viewport height */
     display: flex;
     flex-direction: column;
     background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the gradient fixed while scrolling */
     gap: 40px;
+    font-family: Arial;
 }
 
 .watchlist-grid {
@@ -100,6 +103,7 @@ body{
     /*background-color: rgba(0, 0, 0, 0.6); !* Optional: Dim the background *!*/
     z-index: 10; /* Ensure it appears above other elements */
     text-align: center;
+    font-family: Arial;
 }
 @media (max-width: 768px) {
     .container {

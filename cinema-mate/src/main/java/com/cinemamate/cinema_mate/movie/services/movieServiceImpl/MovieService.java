@@ -18,6 +18,8 @@ import com.cinemamate.cinema_mate.user.entity.User;
 import com.cinemamate.cinema_mate.user.services.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -120,11 +122,12 @@ public class MovieService implements IMovieService {
     // view get all movies that are active so the user can access them
     @Override
     public List<MovieDto> getAllMovies(String search) {
+//        Pageable pageable = PageRequest.of(1, 10)
         List<Movie> movies;
         if(search != null){
-            movies =movieRepository.findByTitleContainingIgnoreCase(search, Sort.by(Sort.Direction.DESC, "createdAt"));
+            movies =movieRepository.findByTitleContainingIgnoreCase(search, Sort.by(Sort.Direction.ASC, "viewDate"));
         }else{
-        movies = movieRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt"));
+        movies = movieRepository.findAll(Sort.by(Sort.Direction.ASC, "viewDate"));
         }
         return movies.stream()
                 .filter(Movie::isActive)
@@ -133,9 +136,11 @@ public class MovieService implements IMovieService {
     }
 
     @Override
-    public List<MovieDto> getAllDatePassedMovies() {
-        List<Movie> movies = movieRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt"));
-        return movies.stream().filter(movie -> !movie.isActive()).map(movieMapper::movieToMovieDto).collect(Collectors.toList());
+    public List<MovieDto> getAllDatePassedMovies(String cinemaName,String search) {
+        Cinema cinema = cinemaService.getCinema(cinemaName);
+        List<Movie> movies = movieRepository.findAll(Sort.by(Sort.Direction.ASC, "viewDate"));
+        return movies.stream().filter(movie -> !movie.isActive()).filter(movie -> search == null || search.isEmpty() ||
+                movie.getTitle().toLowerCase().contains(search.toLowerCase())).filter(movie -> movie.getCinema().getId() == cinema.getId()).map(movieMapper::movieToMovieDto).collect(Collectors.toList());
     }
 
 
@@ -160,38 +165,41 @@ public class MovieService implements IMovieService {
     }
 
     @Override
-    public List<MovieDto> getMoviesByCinemaId(String cinemaId) {
+    public List<MovieDto> getMoviesByCinemaId(String cinemaId,String search) {
         Cinema cinema = cinemaService.getCinemaById(cinemaId);
         List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
 
-        return movies.stream().filter(Movie::isActive).map(movieMapper::movieToMovieDto).collect(Collectors.toList());
+        return movies.stream() .filter(movie -> search == null || search.isEmpty() ||
+                        movie.getTitle().toLowerCase().contains(search.toLowerCase())) // Case-insensitive search
+                .filter(Movie::isActive).sorted(Comparator.comparing(Movie::getViewDate)).map(movieMapper::movieToMovieDto).collect(Collectors.toList());
     }
 
     @Override
     public List<MovieDto> getMoviesByCinema(String cinemaName,String search) {
-//        Cinema cinema = cinemaService.getCinema(cinemaName);
-//        if(cinema == null){
-//            throw CinemaExceptions.cinemaNameNotFound(cinemaName);
-//        }
-//        List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
-//        return  movies.stream()
-//                .filter(movie -> search == null || search.isEmpty() ||
-//                        movie.getTitle().toLowerCase().contains(search.toLowerCase())) // Case-insensitive search
-//                .map(movieMapper::movieToMovieDto)
-//                .collect(Collectors.toList());
         Cinema cinema = cinemaService.getCinema(cinemaName);
-        if (cinema == null) {
+        if(cinema == null){
             throw CinemaExceptions.cinemaNameNotFound(cinemaName);
         }
-
         List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
-
-        return movies.stream().filter(Movie::isActive)
+        return  movies.stream()
+                .filter(Movie::isActive)
                 .filter(movie -> search == null || search.isEmpty() ||
                         movie.getTitle().toLowerCase().contains(search.toLowerCase())) // Case-insensitive search
-                .sorted(Comparator.comparing(Movie::getViewDate)) // Sort by view date in ascending order
+                .sorted(Comparator.comparing(Movie::getViewDate))
                 .map(movieMapper::movieToMovieDto)
                 .collect(Collectors.toList());
+//        Cinema cinema = cinemaService.getCinema(cinemaName);
+//        if (cinema == null) {
+//            throw CinemaExceptions.cinemaNameNotFound(cinemaName);
+//        }
+//
+//        List<Movie> movies = movieRepository.findMoviesByCinema(cinema);
+//        return movies.stream().filter(Movie::isActive)
+//                .filter(movie -> search == null || search.isEmpty() ||
+//                        movie.getTitle().toLowerCase().contains(search.toLowerCase())) // Case-insensitive search
+//                .sorted(Comparator.comparing(Movie::getViewDate)) // Sort by view date in ascending order
+//                .map(movieMapper::movieToMovieDto)
+//                .collect(Collectors.toList());
     }
 
     @Override

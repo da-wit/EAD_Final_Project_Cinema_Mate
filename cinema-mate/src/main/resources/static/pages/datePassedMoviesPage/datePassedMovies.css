@@ -1,11 +1,19 @@
-body{
-    height: 100vh;
+/*body{*/
+/*    height: 100vh;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);*/
+/*    gap: 40px;*/
+/*}*/
+body {
+    min-height: 100vh; /* Ensures the body covers the full viewport height */
     display: flex;
     flex-direction: column;
     background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the gradient fixed while scrolling */
     gap: 40px;
 }
-
 .date-passed-grid {
     display: grid;
     /*grid-template-columns: 1fr 1fr 1fr 1fr;*/
@@ -16,7 +24,8 @@ body{
 }
 
 .movie-card {
-    background: rgba(20, 14, 40, 0.6);
+    /*background: rgba(20, 14, 40, 0.6);*/
+
     border-radius: 1rem;
     overflow: hidden;
     transition: transform 0.3s ease;
@@ -93,6 +102,8 @@ body{
 
 .movie-info {
     padding: 1rem;
+    font-family: Arial;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
 }
 
 .movie-title {
@@ -124,6 +135,7 @@ body{
     /*background-color: rgba(0, 0, 0, 0.6); !* Optional: Dim the background *!*/
     z-index: 10; /* Ensure it appears above other elements */
     text-align: center;
+    font-family: Arial;
 }
 
 .modal {

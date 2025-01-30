@@ -1,12 +1,23 @@
-body{
-    height: 100vh;
+body {
+    min-height: 100vh; /* Ensures the body covers the full viewport height */
     display: flex;
     flex-direction: column;
     background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
-    gap: 50px;
-    font-family: Roboto;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the gradient fixed while scrolling */
+    gap: 40px;
     color: white;
+    font-family: Arial;
 }
+/*body{*/
+/*    !*height: 100vh;*!*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);*/
+/*    gap: 50px;*/
+/*    font-family: Roboto;*/
+/*    color: white;*/
+/*}*/
 
 /*.container {*/
 /*    margin: 20px;*/
@@ -125,12 +136,13 @@ h1 {
     /*background-color: rgba(0, 0, 0, 0.6); !* Optional: Dim the background *!*/
     z-index: 10; /* Ensure it appears above other elements */
     text-align: center;
+    font-family: Arial;
 }
 .verify-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #00ffff;
+    background-color: #724DF8;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -146,7 +158,7 @@ h1 {
     transition: background-color 0.3s ease-in-out;
 }
 .verify-button:hover{
-    background-color: rgba(0, 255, 255, 0.82);;
+    background-color: rgba(114, 77, 248, 0.94);
 }
 
 .modal {
@@ -288,4 +300,23 @@ textarea:focus {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+    z-index: 2000;
+}
+
+.total-reserved-movies{
+    position: fixed;
+    bottom: 70px;
+    /*right: 80px;*/
+    right: 30px;
+    background-color: #ddd7ea;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    width: 50px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }

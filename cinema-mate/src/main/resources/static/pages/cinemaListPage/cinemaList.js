@@ -2,9 +2,12 @@ document.addEventListener("DOMContentLoaded",()=>{
     const cinemaGrid = document.getElementById('cinema-grid');
     const authToken = localStorage.getItem('authToken')
 
+    const searchInput = document.getElementById("search-input"); // Add search input field reference
+    let currentSearch ="";
+
     async function fetchCinema(){
         try{
-            const response = await fetch('http://localhost:8080/api/v1/cinema/all',{
+            const response = await fetch(`http://localhost:8080/api/v1/cinema/all?search=${currentSearch}`,{
                 method:"GET",
                 headers: {
                     'Authorization': `Bearer ${authToken}`, // Add the token to the header
@@ -42,11 +45,11 @@ document.addEventListener("DOMContentLoaded",()=>{
         return `
         <div class="cinema-card" id="${cinema.id}">
             ${path === null ?
-            `<img src="../no-profile.png" alt="${cinema.cinemaName}" class="cinema-image"/>` :
+            `<img src="../no-cinema-profile.png" alt="${cinema.cinemaName}" class="cinema-image"/>` :
             `<img src="http://localhost:8080/cinemaProfile/${cinema.imagePath}" alt="${cinema.cinemaName}" class="cinema-image"/>`
         }
             <div class="cinema-info">
-                <h3 class="cinema-title">Title: ${cinema.cinemaName}</h3>
+                <h3 class="cinema-title">Cinema name: ${cinema.cinemaName.charAt(0).toUpperCase() + cinema.cinemaName.slice(1).toLowerCase()}</h3>
             </div>
         </div>
     `;
@@ -56,8 +59,11 @@ document.addEventListener("DOMContentLoaded",()=>{
     async function generateCinemaCard() {
         const cinemas = await fetchCinema();
         if (cinemas.length === 0) {
-            // console.log("dkkdkdkd")
-            cinemaGrid.innerHTML = '<p class="no-cinema">No cinema available to display.</p>';
+            console.log(currentSearch)
+            const text = `No cinema found with name ${currentSearch}`
+            const message = "No cinema available to display."
+            cinemaGrid.innerHTML =`<p class="no-cinema">${currentSearch ? text : message  }</p>`;
+            return;
         }
         cinemaGrid.innerHTML = cinemas.map(movie => createCinemaCard(movie)).join('');
         handelRedirect();
@@ -72,6 +78,12 @@ document.addEventListener("DOMContentLoaded",()=>{
             })
         })
     }
+
+    searchInput.addEventListener('input',(e)=>{
+        currentSearch = e.target.value
+        console.log(currentSearch)
+        generateCinemaCard();
+    })
 
 
     generateCinemaCard();

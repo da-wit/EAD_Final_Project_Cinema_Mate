@@ -7,12 +7,12 @@ body{
     display: flex;
     flex-direction: column;
 }
-.search{
-    display: none;
-}
-.search-form{
-    display: none;
-}
+/*.search{*/
+/*    display: none;*/
+/*}*/
+/*.search-form{*/
+/*    display: none;*/
+/*}*/
 
 .profile-content {
     display: flex;

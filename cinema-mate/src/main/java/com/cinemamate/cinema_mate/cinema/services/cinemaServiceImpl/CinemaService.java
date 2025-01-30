@@ -11,11 +11,13 @@ import com.cinemamate.cinema_mate.cinema.repository.CinemaRepository;
 import com.cinemamate.cinema_mate.cinema.services.ICinemaService;
 import com.cinemamate.cinema_mate.core.service.ICinemaUserHelper;
 import com.cinemamate.cinema_mate.core.service.fileServiceImpl.FileService;
+import com.cinemamate.cinema_mate.movie.entity.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -113,9 +115,10 @@ public class CinemaService implements ICinemaService {
     }
 
     @Override
-    public List<CinemaDto> getAllCinema() {
+    public List<CinemaDto> getAllCinema(String search) {
         List<Cinema> cinemas = cinemaRepository.findAll();
-        return cinemas.stream().map(cinemaMapper::cinemaToCinemaDto).collect(Collectors.toList());
+        return cinemas.stream().filter(cinema -> search == null || search.isEmpty() ||
+                cinema.getCinemaName().toLowerCase().contains(search.toLowerCase())).sorted(Comparator.comparing(Cinema::getCreatedAt)).map(cinemaMapper::cinemaToCinemaDto).collect(Collectors.toList());
     }
 
     @Override

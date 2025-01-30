@@ -38,8 +38,8 @@ public class CinemaController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<CinemaDto>> getAllCinemas(){
-        return ResponseEntity.ok(cinemaService.getAllCinema());
+    public ResponseEntity<List<CinemaDto>> getAllCinemas(@RequestParam(value = "search", required = false) String search){
+        return ResponseEntity.ok(cinemaService.getAllCinema(search));
     }
 
     @PreAuthorize("hasAuthority('CINEMA')")

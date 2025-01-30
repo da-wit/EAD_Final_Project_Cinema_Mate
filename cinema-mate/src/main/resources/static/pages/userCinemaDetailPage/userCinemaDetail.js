@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded',async ()=>{
     const cinema = await fetchCinemaDetail();
     const cinemaDetailHtml = `
      <div class="cinema-image">
-        <img src="http://localhost:8080/cinemaProfile/${cinema.imagePath  || "../loginPage/2827349.jpg" }" alt="${cinema.cinemaName}" class="main-image">
+        <img src="${cinema.imagePath ? `http://localhost:8080/cinemaProfile/${cinema.imagePath}` : '../no-cinema-profile.png'}"  alt="${cinema.cinemaName}" class="main-image">
     </div>
     <div class="info-section">
         <div class="cinema-header">

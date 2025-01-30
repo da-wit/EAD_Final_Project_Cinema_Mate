@@ -103,7 +103,17 @@ document.addEventListener("DOMContentLoaded",()=>{
                     alert("Movie added successfully!");
                     await generateMovieCard()
                     modal.style.display = "none";
+                document.querySelector('input[type="file"]').value = '';
+                document.getElementById('movie-title').value ='';
+                document.getElementById('movie-description').value ='';
+                document.getElementById('movie-view-time').value ='';
+                document.getElementById('movie-duration').value ='';
+                document.getElementById('movie-view-date').value ='';
+                document.getElementById('movie-total-seats').value ='';
+                document.getElementById('movie-price').value= '';
+                document.getElementById('movie-genres').value ='';
                     console.log("Movie created successfully:", result);
+
                 } catch (error) {
                     console.error("Error creating movie:", error.message);
                     alert("Error while create movie")
@@ -223,12 +233,10 @@ document.addEventListener("DOMContentLoaded",()=>{
     async  function generateMovieCard(){
         const movies = await fetchMovies();
         if(movies.length === 0){
-            // const message = fromCinema
-            //     ? "This cinema currently has no movies listed. Please check back later!"
-            //     : "No movies are currently available. Explore more options soon!";
+
             const text = `No movie found with name ${currentSearch}`
             // movieGrid.innerHTML =`<p class="no-movie">${currentSearch ? text : message  }</p>`;
-            movieGrid.innerHTML =`<p class="no-movie">You have not added any movies yet</p>`;
+            movieGrid.innerHTML =`<p class="no-movie">${currentSearch ? text : "You have not added any movies yet"}</p>`;
             return;
         }
         movieGrid.innerHTML = movies.map(movie => createMovieCard(movie)).join('');
@@ -252,124 +260,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     })
 
 
-    // document.getElementById('add-movie-form').addEventListener('submit',  async (e)=> {
-    //     e.preventDefault(); // Prevent form from submitting normally
-    //
-    //     // Create FormData object to send multipart form data
-    //      // Get auth token from local storage
-    //     // const formData = new FormData();
-    //
-    //     const createMovieDto = {"title": "new title", "description": "Descfdsggggggggggggggggggggggggggggggggggggggggggggggggription", "duration": "02:00:00","viewTime":"03:30:00",
-    //         "price":"120.50","genres":[],"viewDate": "2025-02-01", "seats": 100};
-    //
-    //     // Get the file input (e.g., from a file input element)
-    //     const imageFile = document.querySelector('input[type="file"]').files[0]; // File from <input type="file" />
-    //
-    //     // Create a FormData object
-    //     const formData = new FormData();
-    //     formData.append("createMovieDto", new Blob([JSON.stringify(createMovieDto)], { type: "application/json" }));
-    //     formData.append("image", imageFile);
 
-        // try {
-        //     const response = await fetch("http://localhost:8080/api/v1/movie", {
-        //         method: "POST",
-        //         body: formData,
-        //         headers: {
-        //             'Authorization': `Bearer ${authToken}`,
-        //         },
-        //     });
-        //
-        //     if (!response.ok) {
-        //         const errorData = await response.json();
-        //         await (`Error: ${response.status} - ${errorData.message}`);
-        //         return;
-        //     }
-        //
-        //     const result = await response.json();
-        //     console.log("Movie created successfully:", result);
-        // } catch (error) {
-        //     console.error("Error creating movie:", error.message);
-        // }
-
-
-    // });
-    // document.getElementById('add-movie-form').addEventListener('submit', function (e) {
-    //     e.preventDefault(); // Prevent form from submitting normally
-    //
-    //     // Create FormData object to send multipart form data
-    //     const formData = new FormData();
-    //
-    //     // Collect form data
-    //     const title = document.getElementById('movie-title').value;
-    //     const description = document.getElementById('movie-description').value;
-    //     const viewTime = document.getElementById('movie-view-time').value;
-    //     const duration = document.getElementById('movie-duration').value;
-    //     const viewDate = document.getElementById('movie-view-date').value;
-    //     const totalSeats = document.getElementById('movie-total-seats').value;
-    //     const pricePerSeat = document.getElementById('movie-price').value;
-    //     const genres = [];
-    //
-    //     // Create createMovieDto object
-    //     const createMovieDto = {
-    //         title: title,
-    //         description: description,
-    //         viewTime: viewTime,
-    //         duration: duration,
-    //         viewDate: viewDate,
-    //         totalSeats: totalSeats,
-    //         pricePerSeat: pricePerSeat,
-    //         genres: []
-    //     };
-
-        // Append the createMovieDto as a JSON string with the correct Content-Type
-        // const createMovieDtoBlob = new Blob([JSON.stringify(createMovieDto)], {
-        //     type: 'application/json' // Explicitly set the Content-Type
-        // });
-        // formData.append('createMovieDto', createMovieDtoBlob, 'createMovieDto.json');
-        //
-        // // Append the image file
-        // const imageFile = document.getElementById('movie-image').files[0];
-        // // if (imageFile) {
-        // //     formData.append('image', imageFile);
-        // // }
-        //
-        // // Get the auth token from local storage
-        // const authToken = localStorage.getItem('authToken');
-        // try{
-        //
-        // }
-
-        // Send the POST request
-    //     fetch('http://localhost:8080/api/v1/movie', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Authorization': `Bearer ${authToken}`,
-    //         },
-    //         body: formData, // Send FormData (this automatically sets Content-Type to multipart/form-data)
-    //     })
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 return response.json().then(errorData => {
-    //                     throw new Error(errorData.message || 'Error adding movie');
-    //                 });
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             alert('Movie added successfully!');
-    //             closeModal(); // Close the modal after successful submission
-    //             generateMovieCard(); // Refresh the movie list or perform other actions
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //             alert(error.message || 'There was an error adding the movie.');
-    //         });
-    // });
-
-// // Function to close the modal (you can customize this)
-//     function closeModal() {
-//         document.querySelector('.modal').style.display = 'none';
-//     }
 
     generateMovieCard();
 

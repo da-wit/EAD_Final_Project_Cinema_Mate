@@ -219,26 +219,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-
-    // async function deleteMovie() {
-    //     try {
-    //         const response = await fetch(`http://localhost:8080/api/v1/movie/${movieId}`, {
-    //             method: "DELETE",
-    //             headers: { 'Authorization': `Bearer ${authToken}` },
-    //         });
-    //
-    //         if (!response.ok) {
-    //             const errorData = await response.text();
-    //             throw new Error(`Error: ${response.status} - ${errorData}`);
-    //         }
-    //
-    //         alert("Movie deleted successfully!");
-    //     } catch (error) {
-    //         console.error("Error deleting movie:", error);
-    //         alert("Error while deleting movie");
-    //     }
-    // }
-
     async function updateMovie(formData) {
         try {
             const response = await fetch(`http://localhost:8080/api/v1/movie/${movieId}`, {
@@ -261,6 +241,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             }
             movie = await response.json();
+            movie = await fetchMovieDetail();
             alert("Movie updated successfully!");
             document.getElementById("add-modal").style.display = "none";
             renderMovieDetails();
@@ -273,11 +254,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("add-movie-form").addEventListener("submit", async (event) => {
         event.preventDefault();
         const minutesDuration = parseInt(document.getElementById('movie-duration').value, 10);
-        // const hoursDuration = Math.floor(minutesDuration / 60);
-        // const remainingMinutes = minutesDuration % 60;
-        console.log(minutesDuration)
+
         const formatViewTime =convertMinutesToTimeFormat(minutesDuration)
-        console.log(formatViewTime)
+
 
 
         const timeInput = document.getElementById('movie-view-time').value; // Example input

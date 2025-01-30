@@ -14,6 +14,13 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
     }
 
+    function convertToHumanReadable(dateString) {
+        const date = new Date(dateString);
+        const months = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+        return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    }
+
 
     // const fetchUrl = fromCinema ? `http://localhost:8080/api/v1/movie/cinema/${cinemaId}` : `http://localhost:8080/api/v1/movie?serach=${currentSearch}`;
 
@@ -58,7 +65,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                 <img src="http://localhost:8080/movieImage/${movie.imagePath}" alt="${movie.title}" class="movie-image">
                 <div class="movie-info">
                     <h3 class="movie-title">Title: ${movie.title}</h3>
-                    <p class="movie-date">Show Date: ${movie.viewDate}</p>
+                    <p class="movie-date">Show Date: ${convertToHumanReadable(movie.viewDate)}</p>
                 </div>
             </div>
         `;

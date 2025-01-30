@@ -24,6 +24,13 @@ document.addEventListener("DOMContentLoaded",async ()=>{
         return `${hours}:${minutes} hr`; // Return in the format "hh:mm hr"
     }
 
+    function convertToHumanReadable(dateString) {
+        const date = new Date(dateString);
+        const months = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+        return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    }
+
     async function fetchMovieDetail(){
         try{
             const response = await fetch(`http://localhost:8080/api/v1/movie/${movieId}`,{
@@ -80,7 +87,7 @@ document.addEventListener("DOMContentLoaded",async ()=>{
                                 </div>
                                 <div class="info-item">
                                     <h2>Show Date</h2>
-                                    <p>${movie.viewDate || 'Show date not available'}</p>
+                                    <p>${convertToHumanReadable(movie.viewDate) || 'Show date not available'}</p>
                                 </div>
                                 <div class="info-item">
                                     <h2>Duration</h2>
