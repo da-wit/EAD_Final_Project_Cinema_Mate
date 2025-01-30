@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         return profileContent.innerHTML = `
     <div class="profile-image-container">
-            <img id="profileImage" src="${profile.imagePath ? `http://localhost:8080/cinemaProfile/${profile.imagePath}` : '../loginPage/2827349.jpg'}" alt="Profile Image">
+            <img id="profileImage" src="${profile.imagePath ? `http://localhost:8080/cinemaProfile/${profile.imagePath}` : '../no-cinema-profile.png'}" alt="Profile Image">
             <label for="imageUpload" class="camera-icon">
                 <i class="fa-solid fa-pen-to-square"></i>
             </label>
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         <div id="viewMode" class="profile-info">
             <div class="cinema-details">
-                <h1 id="displayName">${profile.cinemaName}</h1>
+                <h1 id="displayName">${profile.cinemaName.charAt(0).toUpperCase()  + profile.cinemaName.slice(1).toLowerCase()}</h1>
                 <p id="displayEmail">
         <a href="mailto:${profile.email}" style="color: inherit; text-decoration: none;">
         ${profile.email}
@@ -195,6 +195,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (newPassword === oldPassword) {
             passwordModal.style.display='none';
+            document.getElementById("oldPassword").value = '';
+            document.getElementById("newPassword").value = '';
             return;
         }
 
@@ -220,6 +222,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const error = await response.json()
                 alert(error.message);
             }
+            document.getElementById("oldPassword").value = '';
+            document.getElementById("newPassword").value = '';
+
         } catch (error) {
             console.error(error);
             alert("An error occurred while updating the password.");

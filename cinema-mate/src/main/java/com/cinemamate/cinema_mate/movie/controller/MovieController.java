@@ -29,8 +29,8 @@ public class MovieController {
     }
     @PreAuthorize("hasAuthority('CINEMA')")
     @GetMapping("/datePassed")
-    public ResponseEntity<List<MovieDto>> getAllDatePassedMovies(){
-        return ResponseEntity.ok(movieService.getAllDatePassedMovies());
+    public ResponseEntity<List<MovieDto>> getAllDatePassedMovies(Principal principal,@RequestParam(value = "search", required = false) String search){
+        return ResponseEntity.ok(movieService.getAllDatePassedMovies(principal.getName(),search));
     }
     @GetMapping("/{id}")
     public ResponseEntity<MovieDetailDto> getMovieById(@PathVariable("id") String movieId,Principal principal){
@@ -43,8 +43,8 @@ public class MovieController {
     }
 
     @GetMapping("/cinema/{id}")
-    public  ResponseEntity<List<MovieDto>> getMoviesByCinemaId(@PathVariable("id") String cinemaId){
-        return ResponseEntity.ok(movieService.getMoviesByCinemaId(cinemaId));
+    public  ResponseEntity<List<MovieDto>> getMoviesByCinemaId(@PathVariable("id") String cinemaId,@RequestParam(value = "search", required = false) String search){
+        return ResponseEntity.ok(movieService.getMoviesByCinemaId(cinemaId,search));
     }
     @PreAuthorize("hasAuthority('CINEMA')")
     @GetMapping("/cinema")

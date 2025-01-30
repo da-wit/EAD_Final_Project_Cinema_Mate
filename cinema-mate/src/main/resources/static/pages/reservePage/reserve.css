@@ -1,10 +1,20 @@
-body{
-    height: 100vh;
+body {
+    min-height: 100vh; /* Ensures the body covers the full viewport height */
     display: flex;
     flex-direction: column;
     background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);
-    gap: 50px;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the gradient fixed while scrolling */
+    gap: 40px;
+    font-family: Arial;
 }
+/*body{*/
+/*    height: 100vh;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    background: linear-gradient(to bottom right, #724DF8, #957DFA, #4E90FF);*/
+/*    gap: 50px;*/
+/*}*/
 .booked-list {
     display: flex;
     flex-direction: column;
@@ -28,7 +38,7 @@ body{
 
 .movie-poster {
     width: 100%;
-    height: 80%;
+    height: 300px;
     object-fit: cover;
     border-radius: 0.5rem;
 }
@@ -126,96 +136,6 @@ body{
     background: #b91c1c;
 }
 
-/*!* Modal Styles *!*/
-/*.modal {*/
-/*    display: none;*/
-/*    position: fixed;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    background: rgba(0, 0, 0, 0.5);*/
-/*    backdrop-filter: blur(5px);*/
-/*    z-index: 1000;*/
-/*    opacity: 0;*/
-/*    transition: opacity 0.3s ease;*/
-/*}*/
-
-/*.modal.active {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    opacity: 1;*/
-/*}*/
-
-/*.modal-content {*/
-/*    background: rgba(20, 14, 40, 0.95);*/
-/*    backdrop-filter: blur(10px);*/
-/*    padding: 2rem;*/
-/*    border-radius: 1rem;*/
-/*    width: 90%;*/
-/*    max-width: 400px;*/
-/*    transform: scale(0.9);*/
-/*    transition: transform 0.3s ease;*/
-/*}*/
-
-/*.modal.active .modal-content {*/
-/*    transform: scale(1);*/
-/*}*/
-
-/*.modal h2 {*/
-/*    font-size: 1.5rem;*/
-/*    margin-bottom: 1.5rem;*/
-/*}*/
-
-/*.form-group {*/
-/*    margin-bottom: 1.5rem;*/
-/*}*/
-
-/*.form-group label {*/
-/*    display: block;*/
-/*    margin-bottom: 0.5rem;*/
-/*}*/
-
-/*.form-group input {*/
-/*    width: 100%;*/
-/*    padding: 0.75rem;*/
-/*    background: rgba(255, 255, 255, 0.1);*/
-/*    border: 1px solid rgba(255, 255, 255, 0.2);*/
-/*    border-radius: 0.5rem;*/
-/*    color: white;*/
-/*    font-size: 1rem;*/
-/*}*/
-
-/*.seats-info {*/
-/*    margin-top: 0.5rem;*/
-/*    font-size: 0.875rem;*/
-/*    color: rgba(255, 255, 255, 0.6);*/
-/*}*/
-
-/*.modal-buttons {*/
-/*    display: grid;*/
-/*    grid-template-columns: 1fr 1fr;*/
-/*    gap: 1rem;*/
-/*}*/
-
-/*.cancel-btn {*/
-/*    background: rgba(255, 255, 255, 0.1);*/
-/*    color: white;*/
-/*}*/
-
-/*.cancel-btn:hover {*/
-/*    background: rgba(255, 255, 255, 0.2);*/
-/*}*/
-
-/*.confirm-btn {*/
-/*    background: #7c3aed;*/
-/*    color: white;*/
-/*}*/
-
-/*.confirm-btn:hover {*/
-/*    background: #6d28d9;*/
-/*}*/
 .modal {
     display: none; /* Hidden by default */
     position: fixed;
@@ -334,6 +254,7 @@ body{
     /*background-color: rgba(0, 0, 0, 0.6); !* Optional: Dim the background *!*/
     z-index: 10; /* Ensure it appears above other elements */
     text-align: center;
+    font-family: Arial;
 }
 
 @media (max-width: 768px) {

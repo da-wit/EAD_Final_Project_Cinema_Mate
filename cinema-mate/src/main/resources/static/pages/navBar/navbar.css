@@ -151,7 +151,7 @@
 }
 
 .navbar-menu a:hover {
-        color: #00bcd4; /* Highlight on hover */
+    /* Highlight on hover */
     font-size: 25px;
     }
 
@@ -174,28 +174,35 @@
     color: #007bff;
 }
 
-/* Search container */
-.search-container {
-    width: 300px; /* Set a fixed width for the search container */
-    display: flex;
-    justify-content: flex-end;
-}
+/*!* Search container *!*/
+/*.search-container {*/
+/*    width: 300px; !* Set a fixed width for the search container *!*/
+/*    display: flex;*/
+/*    justify-content: flex-end;*/
+/*}*/
 
-.search-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    width: 100%; /* Full width of the container */
-}
+/*.search-form {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 1fr;*/
+/*    align-items: center;*/
+/*    width: 100%; !* Full width of the container *!*/
+/*}*/
 
-.search-input {
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-    font-size: 14px;
-    flex: 1; /* Takes up remaining space in the form */
-}
+/*.search-input {*/
+/*    padding: 5px 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    outline: none;*/
+/*    font-size: 14px;*/
+/*}*/
+/*.search-input {*/
+/*    padding: 5px 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    outline: none;*/
+/*    font-size: 14px;*/
+/*    flex: 1; !* Takes up remaining space in the form *!*/
+/*}*/
 
 .search-button {
     background-color: transparent;
@@ -213,4 +220,27 @@
 .search-container:empty {
     width: 300px; /* Same width as the search bar */
     height: 0; /* Ensures consistent height */
+}
+
+
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Pushes the search bar to the far right */
+}
+
+.search-input {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+    color: #333;
 }

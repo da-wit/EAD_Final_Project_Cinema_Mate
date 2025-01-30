@@ -17,7 +17,7 @@ public class UpdateMovieDto {
     private String title;
 
     @NotEmpty(message = "Description is required")
-    @Size(max = 1000, message = "Description cannot exceed 1000 characters")
+    @Size(max = 10000, message = "Description cannot exceed 1000 characters")
     private String description;
 
     @NotNull(message = "Duration is required")

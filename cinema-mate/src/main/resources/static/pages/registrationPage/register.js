@@ -70,10 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Registration successful!');
             window.location.href = '../loginPage/login.html';
             } else {
-
                 const error = await response.json();
-
-                console.log(error)
                 errorDiv.textContent = error.message || 'Registration failed.';
             }
 

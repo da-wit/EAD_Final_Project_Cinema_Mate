@@ -15,10 +15,10 @@ public interface IMovieService {
     MovieDto updateMovie(UpdateMovieDto updateMovieDto, MultipartFile imageFile, String movieId, String cinemaName);
     String deleteMovieById(String movieId,String cinemaName);
     List<MovieDto> getAllMovies(String search);
-    List<MovieDto> getAllDatePassedMovies();
+    List<MovieDto> getAllDatePassedMovies(String cinemaName,String search);
     MovieDetailDto getMovieById(String movieId,String userName);
     MovieDetailDto getMovieByIdForCinema(String movieId,String cinemaName);
-    List<MovieDto> getMoviesByCinemaId(String cinemaId);
+    List<MovieDto> getMoviesByCinemaId(String cinemaId,String search);
     // this returns the movies of the currently logged in cinema
     List<MovieDto> getMoviesByCinema(String cinemaName,String search);
 

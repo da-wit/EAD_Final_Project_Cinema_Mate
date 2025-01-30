@@ -46,6 +46,7 @@ body {
     overflow: hidden;
     border-top-left-radius: 1rem; /* Top-left corner */
     border-bottom-left-radius: 1rem;
+    height:650px;
 }
 
 .poster-image {

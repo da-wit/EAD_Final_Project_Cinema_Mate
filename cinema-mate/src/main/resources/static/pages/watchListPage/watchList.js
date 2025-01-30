@@ -13,6 +13,13 @@ document.addEventListener("DOMContentLoaded",()=>{
         return `${hour}:${minutes} ${ampm}`;
     }
 
+    function convertToHumanReadable(dateString) {
+        const date = new Date(dateString);
+        const months = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+        return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    }
+
     async function getWatchList(){
         try {
             const response = await fetch('http://localhost:8080/api/v1/watchlist',{
@@ -52,7 +59,7 @@ document.addEventListener("DOMContentLoaded",()=>{
             <div class="movie-info">
                 <h3 class="movie-title">${watchList.movieDetailDto.title}</h3>
                 <div class="movie-details">
-                    <span class="show-date">Show Date: ${watchList.movieDetailDto.viewDate}</span>
+                    <span class="show-date">Show Date: ${convertToHumanReadable(watchList.movieDetailDto.viewDate)}</span>
                     <span class="show-time">Show Time: ${convertTo12HourFormat(watchList.movieDetailDto.viewTime)}</span>
                 </div>
             </div>
@@ -69,39 +76,6 @@ document.addEventListener("DOMContentLoaded",()=>{
         handleDeleteFromWatchlist();
     }
 
-    //  function  handleDeleteFromWatchlist (){
-    //     const removeBtn = document.querySelectorAll('.remove-btn');
-    //     removeBtn.forEach( (btn) =>{
-    //         btn.addEventListener('click',async(e)=>{
-    //             const watchListId = e.target.dataset.watchlist;
-    //             try{
-    //                 const response = await fetch(`http://localhost:8080/api/v1/watchlist/${watchListId}`,{
-    //                     method: 'DELETE',
-    //                         headers: {
-    //                             'Authorization': `Bearer ${authToken}`,
-    //                             'Content-Type': 'application/json',
-    //                         },
-    //                 });
-    //                 if (!response.ok) {
-    //                     const error = await response.json();
-    //                     if (response.status === 401) {
-    //                         alert('Unauthorized access. Redirecting to login.');
-    //                         window.location.href = '../loginPage/login.html';
-    //                     } else {
-    //                         alert(error.message);
-    //                     }
-    //                     return;
-    //                 }
-    //
-    //                 await  generateWatchLists();
-    //             }catch (e){
-    //                 console.error('Error deleting watchList:', e);
-    //                 alert("Error deleting watchList");
-    //             }
-    //
-    //         })
-    //     })
-    // }
 
     function handleDeleteFromWatchlist() {
         const removeBtn = document.querySelectorAll('.remove-btn');

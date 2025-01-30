@@ -317,6 +317,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${hour}:${minutes} ${ampm}`;
     }
 
+    function convertToHumanReadable(dateString) {
+        const date = new Date(dateString);
+        const months = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+        return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    }
     // Fetch booked movies
     async function fetchBookedMovies() {
         try {
@@ -358,7 +364,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                     <div class="info-item">
                         <h2>Show Date</h2>
-                        <p>${booked.movieDetailDto.viewDate}</p>
+                        <p>${convertToHumanReadable(booked.movieDetailDto.viewDate)}</p>
                     </div>
                     <div class="info-item">
                         <h2>Show Time</h2>
@@ -382,7 +388,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p>${booked.bookingCode}</p>
                         </div>
                         <div class="action-buttons">
-                            <button class="btn update-btn" data-book-id="${booked.id}" data-available-seats="${booked.movieDetailDto.seats - booked.movieDetailDto.bookedSeats} data-booked-seats=${booked.numberOfSeats}">Update</button>
+                            <button class="btn update-btn" data-book-id="${booked.id}" data-available-seats="${booked.movieDetailDto.seats - booked.movieDetailDto.bookedSeats + booked.numberOfSeats}" data-booked-seats="${booked.numberOfSeats}">Update</button>
                             <button class="btn delete-btn" data-book-id="${booked.id}">Delete</button>
                         </div>
                     </div>
@@ -395,7 +401,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const bookedMovies = await fetchBookedMovies();
 
         if (bookedMovies.length === 0) {
-            bookedList.innerHTML = `<p class="no-movie">You have not booked any movies yet.</p>`;
+            bookedList.innerHTML = `<p class="no-movie">You have not reserved any movies yet.</p>`;
             return;
         }
 
@@ -449,11 +455,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateButtons.forEach((button) => {
             button.addEventListener('click', (e) => {
                 movieId = e.target.dataset.bookId;
+                console.log(e.target.dataset.bookedSeats)
+                console.log("dkdkdkkdkdkdkd")
                 availableSeats = parseInt(e.target.dataset.availableSeats, 10);
                 bookedSeats = parseInt(e.target.dataset.bookedSeats,10);
                 console.log(availableSeats)
                 maxSeats.textContent = `Maximum available ${availableSeats} seats`;
-                seatInput.value = bookedSeats;
+                document.getElementById('seats').value = bookedSeats
+                // seatInput.value = bookedSeats;
                 errorSpan.style.display = 'none';
                 modal.classList.add('active');
             });
@@ -526,5 +535,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Initialize booked movies
-    generateBookedCard();
+    await generateBookedCard();
 });

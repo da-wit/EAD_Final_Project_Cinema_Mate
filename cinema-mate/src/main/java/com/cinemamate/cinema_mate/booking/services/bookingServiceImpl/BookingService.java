@@ -88,10 +88,10 @@ public class BookingService implements IBookingService {
         }
         Booking booking = bookingRepository.findBookingById(bookingId).orElseThrow(() -> BookingExceptions.notFound(bookingId));
         Movie movie = booking.getMovie();
-        if ( movie.getSeats() - numberOfBookedSeats(movie.getId()) == 0) {
+        if ( movie.getSeats() - numberOfBookedSeats(movie.getId()) + booking.getNumberOfSeats() == 0) {
             throw BookingExceptions.noAvailableSeats();
         }
-        else if( movie.getSeats() - numberOfBookedSeats(movie.getId())  < numberOfSeats){
+        else if( movie.getSeats() - numberOfBookedSeats(movie.getId()) + booking.getNumberOfSeats()  < numberOfSeats){
             throw BookingExceptions.insufficientSeatsAvailable();
         }
         long currentUserBookedSeats = booking.getNumberOfSeats();
@@ -168,7 +168,8 @@ public class BookingService implements IBookingService {
 //    @Scheduled(cron = "0 0 * * * *") // Run every hour
 //    @Scheduled(cron = "0 * * * * *") // Every minute
     @Transactional
-    @Scheduled(cron = "0 0 0 * * ?")
+//    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 * * * * *")
     public void cleanUpExpiredBookings() {
         LocalDateTime now = LocalDateTime.now();
         List<Booking> bookings = bookingRepository.findAll();

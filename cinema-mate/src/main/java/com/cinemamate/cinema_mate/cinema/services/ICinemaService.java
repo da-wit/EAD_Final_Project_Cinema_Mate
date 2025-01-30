@@ -20,7 +20,7 @@ public interface ICinemaService {
     CinemaDto getCinemaDetail(String cinemaName);
     String uploadCinemaProfile(String cinemaName, MultipartFile imageFile);
     String updatePassword(String cinemaName, UpdatePasswordDto updatePasswordDto);
-    List<CinemaDto> getAllCinema();
+    List<CinemaDto> getAllCinema(String search);
     BasicCinemaDto getCinemaDetailById(String id);
 
 }

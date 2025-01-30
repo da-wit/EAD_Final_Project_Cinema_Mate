@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded",async ()=>{
     const authToken = localStorage.getItem('authToken')
     let datePassedGrid = document.querySelector('.date-passed-grid');
     let currentSelectedMovieId;
+    const searchInput = document.getElementById("search-input"); // Add search input field reference
+    let currentSearch ="";
 
     function convertMinutesToTimeFormat(totalMinutes) {
         const hours = Math.floor(totalMinutes / 60);
@@ -61,7 +63,7 @@ document.addEventListener("DOMContentLoaded",async ()=>{
 
     async function getDatePassedMovies(){
         try {
-            const response = await fetch('http://localhost:8080/api/v1/movie/datePassed',{
+            const response = await fetch(`http://localhost:8080/api/v1/movie/datePassed?search=${currentSearch}`,{
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
@@ -111,7 +113,10 @@ document.addEventListener("DOMContentLoaded",async ()=>{
     async function generateDatePassed(e){
         const  datePassedMovies = await getDatePassedMovies();
         if(datePassedMovies.length === 0){
-            datePassedGrid.innerHTML = `<p class="no-movie"> don't have any movie that passed the current date.</p>`;
+            const text = `No movie found with name ${currentSearch}`
+            const message = "Don't have any movie that passed the current date."
+            datePassedGrid.innerHTML =`<p class="no-movie">${currentSearch ? text : message  }</p>`;
+            // datePassedGrid.innerHTML = `<p class="no-movie"> don't have any movie that passed the current date.</p>`;
             return
         }
         datePassedGrid.innerHTML= datePassedMovies.map(createWatchListCard).join(' ')
@@ -164,6 +169,7 @@ document.addEventListener("DOMContentLoaded",async ()=>{
                      document.getElementById('movie-view-date').value=movie.viewDate;
                     document.getElementById('movie-total-seats').value=movie.seats;
                      document.getElementById('movie-price').value = movie.price;
+                     console.log(document.getElementById('movie-genres').value);
                    document.getElementById('movie-genres').value= movie.genres.join(',');
 
                 }catch (e){
@@ -310,6 +316,11 @@ document.addEventListener("DOMContentLoaded",async ()=>{
         // modal.style.display = "none";
     });
 
+    searchInput.addEventListener('input',async (e)=>{
+        currentSearch = e.target.value
+        console.log(currentSearch)
+        await generateDatePassed();
+    })
 
     await generateDatePassed();
 
